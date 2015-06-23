@@ -1,0 +1,30 @@
+* {
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    font-size: 20px;
+    line-height: 1.5;
+    letter-spacing: .01em;
+}
+
+h1 {
+    font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+    font-size: 60px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li:before {
+    content: "—";
+    padding-right: .5em;
+}
+
+#contacts li:before {
+    content: "";
+    padding: 0;
+}

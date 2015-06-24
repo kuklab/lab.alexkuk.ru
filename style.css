@@ -14,6 +14,15 @@ h1 {
     margin-top: 1em;
 }
 
+a {
+    border-bottom: 1px solid;
+}
+
+/* Disable bootstrap link underlining */
+a:hover, a:focus {
+    text-decoration: none;
+}
+
 ul {
     list-style: none;
     padding: 0;

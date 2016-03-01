@@ -1,0 +1,21 @@
+Поиск сайтов заданной тематики
+
+Для исследования рынка иногда нужно найти все сайты заданной тематики. Например, все сайты, про лекарства такие как <a href="http://med.sputnik.ru">med.sputnik.ru</a>, <a href="http://aptekamos.ru">aptekamos.ru</a> и <a href="http://www.poisklekarstv.ru/">poisklekarstv.ru</a> или все новостные сайты похожие на <a href="http://lenta.ru/">lenta.ru</a>, <a href="http://www.vedomosti.ru/">vedomosti.ru</a> или <a href="https://meduza.io/">meduza.io</a>.
+
+За разумное время такую задачу можно решить с помощью графа похожих сайтов.
+<img src="https://habrastorage.org/files/481/0f2/189/4810f2189ec0427a9ef15182d810b866"/>
+<cut/>
+
+Идея такая: вручную набираем несколько сайтов, которые точно нам подходят, как-то для каждого находим похожие, проверяем их вручную, подходящие добавляем в набор, повторяем процедуру. Если на каждом шаге аккуратно отбирать сайты, то процесс рано или поздно сойдётся, граф похожих сайтов замкнётся.
+<img src="https://habrastorage.org/files/266/1e0/f0f/2661e0f0f126441fa1f83c643415bc52.gif"/>
+
+Похожие сайты можно искать в <a href="https://www.google.ru/?gfe_rd=cr&ei=dVrLVaSBFq2r8weQ9quoDQ#newwindow=1&q=related:cnn.com">Гугле c помощью ключевого слова related</a>, <a href="http://www.alexa.com/siteinfo/cnn.com">брать у Алексы</a> и <a href="http://www.similarweb.com/website/cnn.com#similarSites">Similarweb</a>.
+
+Чтобы не тратить время на выгребание подходящих, но мелких сайтов, нужно следить за тем, как меняется суммарный трафик на сайты из набора. Обычно он выходит на плато гораздо раньше, чем число сайтов в наборе.
+
+Потом граф можно использовать, чтобы примерно понять структуру тематики. Например, новостные сайты бывают про игры:
+<img src="https://habrastorage.org/files/d2b/270/6c3/d2b2706c3cbe4324942b4675671d726a"/>
+Про религию:
+<img src="https://habrastorage.org/files/ba7/306/841/ba73068415b04023a4ae5df07bf7cae2"/>
+Про науку:
+<img src="https://habrastorage.org/files/46d/a37/c64/46da37c6415749f991997003f6776c24"/>

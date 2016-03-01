@@ -1,0 +1,203 @@
+Работа с данными среднего размера в Python. Pandas и Seaborn
+
+Когда много работаешь с данными, нужно часто строить графики и делать разными преобразования над таблицами. Важно научиться делать это быстро и минимально напрягая мозг. Дело в том, что анализ данных во многом заключается в придумывании и проверке гипотез. Придумывать, конечно, интереснее, чем проверять. Но делать нужно и то и другое. Хорошие инструменты в тренированных руках помогают тратить на техническую работу минимальное количество времени и интеллектуальной энергии.
+
+Я попробовал много инструментов: Excel, Python+Matplotlib, R+ggplot, Python+ggplot, и остановился на связке Python+Pandas+Seaborn. Решил с их использованием уже много задач и хотел бы поделиться наблюдениями.
+
+<img src="https://habrastorage.org/files/323/b4c/29c/323b4c29c7b14b16b85f7b97c7c93067"/>
+<cut/>
+Я покажу процесс исследования одного странного датасета. Речь пойдёт о <a href="http://www.minsport.gov.ru/sport/high-sport/edinyy-kalendarnyy-p/">расписании всех спортивных мероприятий с участием российских спортсменов за последние 8 лет</a>. Кстати, если у кого-то после прочтения появятся идеи, что с этими данными делать, пожалуйста, напишите, потому что я ничего толкового так и не придумал.
+
+<a href="https://github.com/alexanderkuk/analyze-sport-afisha/blob/40a5fe0813444b352d89d1b523f9ca5628e232e3/main.py#L145-L206">Захватывающий этап парсинга rst и doc-файликов с сайта Минспорта</a> я пропускаю. Предположим, что все данные уже есть в виде DataFrame'a:
+<source lang="python">
+data.head()
+</source><img src="https://habrastorage.org/files/660/627/65e/66062765e49a40dba824addded642b4e"/>
+
+Таблица не большая, но и не маленькая:
+
+<source lang="python">
+len(data)
+</source><source lang="python">
+76601
+</source>
+Первым делом хотелось бы посмотреть, какие виды спорта представлены:
+
+<source lang="python">
+table = data.groupby('section').size()
+table
+</source><source lang="python">
+section
+R4                                                             11
+Авиамодельный спорт                                          1206
+Автомобильный спорт                                          2787
+Автомодельный спорт                                           160
+Айкидо                                                         26
+Айсшток                                                        49
+Академическая гребля                                          358
+Акробатический рок-н-ролл                                     293
+Альпинизм                                                     355
+Американский футбол                                            86
+Армейский рукопашный бой                                       15
+Армспорт                                                      159
+Бадминтон                                                     698
+Баскетбол                                                    1160
+Бейсбол                                                       176
+Биатлон                                                      1101
+Бильярдный спорт                                              442
+Бобслей                                                        53
+Бобслей (скелетон)                                            368
+Бодибилдинг                                                    94
+Бокс                                                         1374
+Борьба на поясах                                              144
+Боулинг                                                       134
+...
+</source>
+Отсортируем:
+
+<source lang="python">
+table = data.groupby('section').size()
+table = table.sort(inplace=False, ascending=False)
+table
+</source><source lang="python">
+section
+Автомобильный спорт                                          2787
+Спорт лиц с поражением ОДА                                   2469
+Фехтование                                                   2253
+Мотоциклетный спорт                                          2025
+Дзюдо                                                        2022
+Теннис                                                       1770
+Велоспорт-шоссе                                              1561
+Легкая атлетика                                              1511
+Футбол                                                       1432
+Парусный спорт                                               1418
+Бокс                                                         1374
+Конный спорт                                                 1297
+Спорт глухих                                                 1277
+Волейбол                                                     1208
+Авиамодельный спорт                                          1206
+Художественная гимнастика                                    1196
+...
+</source>
+Достаточно странный топ. Отсортируем не по числу мероприятий, а по числу участников:
+
+<source lang="python">
+table = data.groupby('section').participants.sum()
+table = table.sort(inplace=False, ascending=False)
+table
+</source><source lang="python">
+Футбол                                                       535305
+Баскетбол                                                    460100
+Автомобильный спорт                                          401397
+Танцевальный спорт                                           307731
+Дзюдо                                                        297023
+Самбо                                                        219013
+Легкая атлетика                                              217761
+Тхэквондо                                                    202859
+Киокусинкай                                                  191995
+Велоспорт-шоссе                                              190293
+Комплексные мероприятия                                      187294
+Спортивная борьба                                            177312
+Мотоциклетный спорт                                          176387
+Спортивный туризм                                            153417
+Бокс                                                         148654
+Хоккей                                                       136849
+Кикбоксинг                                                   136099
+...
+</source>
+Так лучше. Теперь нарисуем график для топ-30:
+
+<source lang="python">
+table = data.groupby('section').participants.sum()
+table = table.sort(inplace=False, ascending=False)
+table.head(30).plot(kind='bar')
+</source><img src="https://habrastorage.org/files/119/27c/548/11927c54898746b28aa8e0a492a633eb"/>
+
+Я не фанат супер-сурового инженерного дизайна, поэтому всегда импортирую Seaborn:
+<source lang="python">
+import seaborn
+
+table = data.groupby('section').participants.sum()
+table = table.sort(inplace=False, ascending=False)
+table.head(30).plot(kind='bar')
+</source><img src="https://habrastorage.org/files/bc1/dc6/078/bc1dc60786724fdca15c5014cef0e432"/>
+
+Идеально! Никакой другой функциональности Seaborn здесь использовано не будет. У меня чаще всего так и получается — Seaborn появляется только, чтобы графики стали красивыми. Это уже немало, но, вообще, <a href="http://stanford.edu/~mwaskom/software/seaborn/examples/index.html">библиотека умеет много чего другого</a>.
+
+Теперь интересно посмотреть на изменение числа мероприятий во времени. Всё то же самое только группировать нужно по дате:
+
+<source lang="python">
+table = data.groupby('start').size()
+table.plot()
+</source><img src="https://habrastorage.org/files/02b/8c9/5d1/02b8c95d11d248159a72d9d357ac898e"/>
+
+Почти готово. Нужно сделать детализацию, например, по неделям, а не по дням:
+<source lang="python">
+table = data.groupby('start').size()
+table = table.resample('M', how='sum')
+table.plot()
+</source><ul>
+<li>Спортивная жизнь зимой наименее активна.</li>
+<li>Тренд до последнего времени восходящий.</li>
+<li>В 2010 был какой-то провал.</li>
+</ul><img src="https://habrastorage.org/files/1b7/22d/4a2/1b722d4a24514c629f6bd0e950b9852c"/>
+
+Было бы интереснее посмотреть на этот граф в разбивке по видам спорта. Для этого нужно сгруппировать данные по дате и виду спорта:
+
+<source lang="python">
+table = data.pivot_table(index='start', columns='section', values='participants', aggfunc=len)
+table.head()
+</source><img src="https://habrastorage.org/files/19c/d1a/d7a/19cd1ad7ab934aeea775114d0d0b5017"/>
+
+И нарисовать:
+
+<source lang="python">
+table.plot()
+</source><img src="https://habrastorage.org/files/ce5/c2e/8cc/ce5c2e8ccb0340bd9e37f8ef0bd2f402"/>
+
+Блестяще, ничего не понятно. Для начала уберём всё кроме топ-40 видов спорта, кстати, код для расчёта топа уже есть, заново не надо писать:
+<source lang="python">
+table = data.groupby('section').size()
+table = table.sort(inplace=False, ascending=False)
+order = table.head(40).index
+
+table = data.pivot_table(index='start', columns='section', values='participants', aggfunc=len)
+table = table.reindex(columns=order)
+table.plot()
+</source><img src="https://habrastorage.org/files/b2d/089/5ea/b2d0895eace7435db9d5deac01705a3e"/>
+
+Ладно, сделаем детализацию по неделям:
+<source lang="python">
+table = data.groupby('section').size()
+table = table.sort(inplace=False, ascending=False)
+order = table.head(40).index
+
+table = data.pivot_table(index='start', columns='section', values='participants', aggfunc=len)
+table = table.reindex(columns=order)
+table = table.resample('M', how='sum')
+table.plot()
+</source><img src="https://habrastorage.org/files/a8e/f40/af8/a8ef40af837c4d2695db593ac06a3636"/>
+
+Почти то, что надо, теперь расположим каждую линию на отдельном графике:
+<source lang="python">
+table = data.groupby('section').size()
+table = table.sort(inplace=False, ascending=False)
+order = table.head(40).index
+
+table = data.pivot_table(index='start', columns='section', values='participants', aggfunc=len)
+table = table.reindex(columns=order)
+table = table.resample('M', how='sum')
+table.plot(subplots=True, layout=(8, 5), figsize=(20, 20))
+</source><ul>
+<li>Для некоторых видов наблюдаются тренды в числе мероприятий:
+<ul>
+<li>Сильно растёт спорт для инвалидов (лиц с поражением ОДА) и автомобильный спорт.</li>
+<li>Слегка растёт мотоциклетный спорт, дзюдо, самбо, парусный спорт, волейбол, тхэквондо, бадминтон.</li>
+<li>У футбола какой-интересный тренд.</li>
+<li>Бокс перестал расти в 2012 году.</li>
+<li>Надо отметить что падения числа мероприятий нигде не наблюдается.</li></ul></li>
+<li>Иногда есть периодичность в числе мероприятий, что не удивительно:<ul>
+<li>Парусный спорт, конные спорт, авиамодельный спорт, велоспорт  замирают зимой.</li>
+<li>Вообще зимой у многих видов затишье. Но бывает и наоборот, например, во фристайле.</li>
+<li>Интересный рисунок у тенниса и лёгкой атлетики, который повторяется каждый год</li></ul></li></ul><img src="https://habrastorage.org/files/317/835/ea5/317835ea5fbf44bf8ef8b0e0ee4e69aa"/>
+
+Что мне нравится в этом подходе? Функция plot очень простая, у неё всего несколько важных аргументов: kind, subplots, figsize. Результат зависит в основном от структуры данных, для которых вызывается plot. То есть не нужно осваивать отдельно инструмент для рисования графиков. Нужно научиться преобразовывать данные. С Pandas это сделать не очень сложно. Достаточно выучить несколько "кирпичиков": groupby, sort, head, pivot_table, reindex, resample, и применять их в разных комбинациях.

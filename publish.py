@@ -8,7 +8,7 @@ from tempfile import mkdtemp
 from contextlib import contextmanager
 
 
-REPO = 'git@github.com:alexanderkuk/lab.alexkuk.ru.git'
+REPO = 'git@github.com:alexanderkuk/1kandidat.ru.git'
 
 
 @contextmanager

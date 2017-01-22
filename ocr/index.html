@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8">
+    <title>OCR на коленке</title>
+    <meta name="description" content="Когда FineReader и Tesseract не подходят.">
+    <meta name="keywords" content="ocr">
+    <meta property="og:title" content="OCR на коленке"/>
+    <meta property="og:description" content="Когда FineReader и Tesseract не подходят."/>
+    <meta property="og:image" content="http://lab.alexkuk.ru/ocr/i/tiser.jpg"/>
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="OCR на коленке">
+    <meta name="twitter:description" content="Когда FineReader и Tesseract не подходят.">
+    <meta name="twitter:image:src" content="http://lab.alexkuk.ru/ocr/i/tiser.jpg">
+
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="highlight.css">
+    <script src="highlight.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Yandex.Metrika counter --><script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter31090551 = new Ya.Metrika({ id:31090551, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="https://mc.yandex.ru/watch/31090551" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-64479295-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+	<div class="col-md-offset-0 col-md-2" id="home">
+	  <a href="/"><span class="hanging-arrow">←</span> Лаборатория анализа данных Кукушкина Александра</a>
+	</div>
+	<div class="col-md-6 col-md-offset-0">
+	  <h1>OCR на коленке</h1>
+	  <div id="intro">
+	    Когда FineReader и Tesseract не подходят.
+	  </div>
+	</div>
+	<div class="col-md-2 date">
+	  2016-02-15
+	</div>
+      </div>
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p>
+	    FineReader и Tesseract решают сложную задачу OCR произвольного документа. Конечно, повторять их труд не имеет смысла. При сборе данных мы часто работаем не с произвольными документами, а со сканами определённого вида. Например, есть таблицы размеров от китайских производителей:
+	  </p>
+	  <figure class="figure">
+	    <img class="img-responsive" src="i/original.png"/>
+	    <figcaption>
+	      <small class="text-muted">Исходное изображение</small>
+	    </figcaption>
+	  </figure>
+
+	  <p class="section">
+	    Нужно с точностью больше 85% извлекать из изображения данные вида:
+	    <pre><code class="json">{
+    "m1": {
+        "s": 36,
+        "m": 37,
+        "l": 38,
+        "xl": 39,
+        "xxl": 40,
+    },
+    "m2": {
+        "s": 82,
+        "m": 86,
+        "l": 90,
+        "xl": 94,
+        "xxl": 98,
+    },
+    "m3": {
+        "s": 68,
+        "m": 72,
+        "l": 76,
+        "xl": 80,
+        "xxl": 84,
+    },
+
+    ...
+}</code></pre>
+	  </p>
+	  <p class="section">
+	    Просто запустить универсальный OCR не получится по трём причинам: иероглифы, таблица, нужно обработать содержание таблицы. Придётся делать специальное решение. С библиотекой OpenCV это не так сложно.
+	  </p>
+	  <p>
+	    Сначала выделим участки с тексом. Для этого применим оператор Собеля и сделаем замыкание. Параметры аккуратно подбираются один раз, потому что сканы однотипные.
+	  </p>
+	  <pre><code class="python">image = cv2.Sobel(
+    image, cv2.CV_8U, 1, 0, ksize=3, scale=1, delta=0,
+    borderType=cv2.BORDER_DEFAULT
+)
+_, image = cv2.threshold(
+    image, 0, 255,
+    cv2.THRESH_BINARY | cv2.THRESH_OTSU
+)
+element = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 5))
+image = cv2.morphologyEx(image, cv2.MORPH_CLOSE, element)
+contours, _ = cv2.findContours(
+    image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE
+)
+for contour in contours:
+    x, y, width, height = cv2.boundingRect(contour)
+    yield Rectangle(x, y, width, height)</code></pre>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-4">
+	  <figure class="figure">
+      	    <img class="img-responsive" src="i/sobel.png"/>
+      	    <figcaption>
+      	      <small class="text-muted">Оператор Собеля</small>
+      	    </figcaption>
+	  </figure>
+	</div>
+	<div class="col-md-4">
+	  <figure class="figure">
+      	    <img class="img-responsive" src="i/morph.png"/>
+      	    <figcaption>
+      	      <small class="text-muted">Замыкание</small>
+      	    </figcaption>
+	  </figure>
+	</div>
+	<div class="col-md-4">
+	  <figure class="figure">
+      	    <img class="img-responsive" src="i/texts.png"/>
+      	    <figcaption>
+      	      <small class="text-muted">Области с текстами</small>
+      	    </figcaption>
+	  </figure>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p class="section">
+	    Нашлось много лишнего: платье, логотип и разделители таблицы. Пока не обращаем на это внимание. Внутри областей с текстом ищем отдельные символы.
+	  </p>
+	  <pre><code class="python">for rectangle in rectangles:
+    x, y, width, height = rectangle
+    roi = image[y:y + height, x:x + width]
+    _, roi = cv2.threshold(
+        roi, 0, 255,
+        cv2.THRESH_BINARY | cv2.THRESH_OTSU
+    )
+    roi = 255 - roi
+    contours, _ = cv2.findContours(
+        roi, cv2.RETR_EXTERNAL,
+        cv2.CHAIN_APPROX_NONE
+    )
+    for contour in contours:
+        x_, y_, width, height = cv2.boundingRect(contour)
+        yield Rectangle(x + x_, y + y_, width, height)</code></pre>
+
+	  <figure class="figure">
+      	    <img class="img-responsive" src="i/symbols.png"/>
+      	    <figcaption>
+      	      <small class="text-muted">Отдельные символы</small>
+      	    </figcaption>
+	  </figure>
+	  <p class="section">
+	    Соберём примеры нужных символов: цифры, некоторые буквы. Будем прикладывать их по очереди к каждой области с помощью функции <code>cv2.matchTemplate</code>. Мы можем так поступить, потому что шрифт и оформление сканов фиксированы.
+	  </p>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6">
+	  <figure class="figure">
+      	    <img class="img-responsive" src="i/patterns.png"/>
+      	    <figcaption>
+      	      <small class="text-muted">Шаблоны</small>
+      	    </figcaption>
+	  </figure>
+	</div>
+	<div class="col-md-6">
+	  <figure class="figure">
+      	    <img class="img-responsive" src="i/classified.png"/>
+      	    <figcaption>
+      	      <small class="text-muted">Классифицированные символы</small>
+      	    </figcaption>
+	  </figure>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p class="section">
+	    Теперь уложим символы в таблицу. Для этого спроецируем оставшиеся области на оси X и Y. Через минимумы полученных гистограмм проведём перегородки.
+	  </p>
+	  <figure class="figure">
+      	    <img class="img-responsive" src="i/gaps.png"/>
+      	    <figcaption>
+      	      <small class="text-muted">Перегородки таблицы</small>
+      	    </figcaption>
+	  </figure>
+	  <p class="section">
+	    Из-за лишних символов в таблице появились ненужные ячейки. Чтобы от них избавиться переберём все подтаблицы и выберем такие, у которых слева только размеры (S, M, L, XL), сверху только измерения, а внутри только числа. Среди них выберем самую большую:
+	  </p>
+
+	  <figure class="figure">
+      	    <img class="img-responsive" src="i/table.png"/>
+      	    <figcaption>
+      	      <small class="text-muted">Оптимальная подтаблица</small>
+      	    </figcaption>
+	  </figure>
+
+	  <p class="section">
+	    Код и примеры <a href="https://github.com/alexanderkuk/size-tables">доступны на Гитхабе</a>.
+	  </p>
+	</div>
+      </div>
+
+      <div id="share" class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+	  <script src="//yastatic.net/share2/share.js"></script>
+	  <div class="ya-share2"
+	       data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter"
+	       data-counter="">
+	  </div>
+	</div>
+      </div>
+      
+      <div id="footer" class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <span class="date">© 2015-2017</span>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>

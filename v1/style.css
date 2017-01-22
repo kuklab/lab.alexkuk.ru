@@ -1,0 +1,51 @@
+body {
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    font-size: 18px;
+    line-height: 1.5;
+    letter-spacing: .01em;
+}
+
+h1 {
+    font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 0.75em;
+    margin-top: 1em;
+}
+
+a {
+    border-bottom: 1px solid;
+}
+
+/* Disable bootstrap link underlining */
+a:hover, a:focus {
+    text-decoration: none;
+}
+
+img.inline-image {
+    height: 1em;
+}
+
+.hanging-quote {
+    margin-left: -0.7em;
+}
+
+.nested-row {
+    margin-left: 0;
+}
+
+.od, .tech, .news {
+    font-size: 14px;
+    padding-left: 15px;
+}
+
+.date {
+    font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+    font-size: 10px;
+    color: #777;
+}
+
+#footer {
+    margin-bottom: 1em;
+}

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8">
+    <title>Исследование работы такси в Москве</title>
+    <meta name="description" content="На какие районы Москвы приходится больше всего заказов? Откуда и куда едут люди на такси?">
+    <meta name="keywords" content="такси, москва, ситимобил, аналитика, исследование">
+    <meta property="og:title" content="Исследование работы такси в Москве"/>
+    <meta property="og:description" content="На какие районы Москвы приходится больше всего заказов? Когда, откуда и куда едут люди на такси?"/>
+    <meta property="og:image" content="http://lab.alexkuk.ru/taxi/i/tiser.png"/>
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Исследование работы такси в Москве">
+    <meta name="twitter:description" content="На какие районы Москвы приходится больше всего заказов? Откуда и куда едут люди на такси?">
+    <meta name="twitter:image:src" content="http://lab.alexkuk.ru/taxi/i/tiser.png">
+
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="jquery-ui.css">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="jquery-1.12.4.js"></script>
+    <script src="jquery-ui.js"></script>
+    <script src="script.js"></script>
+  
+    <!-- Yandex.Metrika counter --><script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter31090551 = new Ya.Metrika({ id:31090551, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="https://mc.yandex.ru/watch/31090551" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-64479295-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+	<div class="col-md-offset-0 col-md-2" id="home">
+	  <a href="/"><span class="hanging-arrow">←</span> Лаборатория анализа данных Кукушкина Александра</a>
+	</div>
+	<div class="col-md-6 col-md-offset-0">
+	  <h1>Исследование работы такси в Москве</h1>
+	</div>
+	<div class="col-md-2 date">
+	    2017-07-10
+	</div>
+      </div>
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p>
+	    В конце июня 2017 года компания <img class="inline" src="i/citymobil.png" /> <a href="https://city-mobil.ru/">Ситимобил</a> на <a href="https://data.socialdatahub.com/">хатаконе по дата-журналистике в НИУ ВШЭ</a> открыла доступ к обезличенным данным о передвижении такси.
+	  </p>
+	  <p>
+	    Нам стала доступна информация о 2&nbsp;078&nbsp;750 поездках за 2015-2017 годы. При выполнении заказа, каждая машина записывает трек. Точки складываются в карту дорог Москвы:
+	  </p>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-10 col-md-offset-1">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/roads.png"/>
+	      <figcaption>
+		Карта дорог Москвы и ближнего Подмосковья, &laquo;нарисованная&raquo; GPS-треками такси
+	      </figcaption>
+	    </figure>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p class="section">
+	    Данных так много, что хорошо видна форма отдельных развязок и число полос на шоссе:
+	  </p>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-xs-6 col-md-2 col-md-offset-1">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/zoom_02.png"/>
+	      <figcaption>
+		МКАД-Волоколамское шоссе
+	      </figcaption>
+	    </figure>
+	</div>
+	<div class="col-xs-6 col-md-2">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/zoom_03.png"/>
+	      <figcaption>
+		МКАД-Ленинградское шоссе
+	      </figcaption>
+	    </figure>
+	</div>
+	<div class="col-xs-6 col-md-2">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/zoom_12.png"/>
+	      <figcaption>
+		Развязка на Таганке
+	      </figcaption>
+	    </figure>
+	</div>
+	<div class="col-xs-6 col-md-2">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/zoom_11.png"/>
+	      <figcaption>
+		Лефортовский тоннель. GPS-сигнал пропадает
+	      </figcaption>
+	    </figure>
+	</div>
+	<div class="col-xs-6 col-md-2">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/zoom_05.png"/>
+	      <figcaption>
+		МКАД-Новорязанское шоссе
+	      </figcaption>
+	    </figure>
+	</div>
+      </div>
+      
+      <div class="row">
+	<div class="col-xs-6 col-md-2 col-md-offset-1">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/zoom_06.png"/>
+	      <figcaption>
+		Развязка МКАД-Каширское шоссе
+	      </figcaption>
+	    </figure>
+	</div>
+	<div class="col-xs-6 col-md-2">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/zoom_07.png"/>
+	      <figcaption>
+		Развязка ТТК-Ленинградские проспект
+	      </figcaption>
+	    </figure>
+	</div>
+	<div class="col-xs-6 col-md-2">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/zoom_08.png"/>
+	      <figcaption>
+		Деловой центр
+	      </figcaption>
+	    </figure>
+	</div>
+	<div class="col-xs-6 col-md-2">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/zoom_09.png"/>
+	      <figcaption>
+		Белорусский вокзал
+	      </figcaption>
+	    </figure>
+	</div>
+	<div class="col-xs-6 col-md-2">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/zoom_10.png"/>
+	      <figcaption>
+		Адская развязка на Савёловской
+	      </figcaption>
+	    </figure>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p class="section">
+	    В течение недели число заказов растёт, в пятницу и субботу поездок больше всего:
+	  </p>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/week.png"/>
+	      <figcaption>
+		Количество заказов такси по дням недели
+	      </figcaption>
+	    </figure>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p class="section">
+	    Меньше всего заказов поздно ночью, с 8 утра люди едут на работу, после 19:00 &mdash; с работы.
+	  </p>
+	  <p>
+	    На <a href="http://stat.gibdd.ru/">сайте ГИБДД</a> открыта статистика по ДТП. Число аварий хорошо отражает загруженность дорог. Люди стараются не ездить на такси в час пик:
+	  </p>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/day.png"/>
+	      <figcaption>
+		Количество заказов такси по часам и количество аварий в течение дня
+	      </figcaption>
+	    </figure>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p class="section">
+	    Поздно ночью почти все заказы сосредоточены в рамках Садового кольца. С 7 до 9 утра вызовы перемещаются за Садовое &mdash; люди едут на работу. С 19 активность возвращается в центр &mdash; горожане возвращаются домой:
+	  </p>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-8 col-md-offset-1" id="animation">
+	  <img class="frame active" src="i/frames/0_0.png"/>
+	  <img class="frame" src="i/frames/0_30.png"/>
+	  <img class="frame" src="i/frames/1_0.png"/>
+	  <img class="frame" src="i/frames/1_30.png"/>
+	  <img class="frame" src="i/frames/2_0.png"/>
+	  <img class="frame" src="i/frames/2_30.png"/>
+	  <img class="frame" src="i/frames/3_0.png"/>
+	  <img class="frame" src="i/frames/3_30.png"/>
+	  <img class="frame" src="i/frames/4_0.png"/>
+	  <img class="frame" src="i/frames/4_30.png"/>
+	  <img class="frame" src="i/frames/5_0.png"/>
+	  <img class="frame" src="i/frames/5_30.png"/>
+	  <img class="frame" src="i/frames/6_0.png"/>
+	  <img class="frame" src="i/frames/6_30.png"/>
+	  <img class="frame" src="i/frames/7_0.png"/>
+	  <img class="frame" src="i/frames/7_30.png"/>
+	  <img class="frame" src="i/frames/8_0.png"/>
+	  <img class="frame" src="i/frames/8_30.png"/>
+	  <img class="frame" src="i/frames/9_0.png"/>
+	  <img class="frame" src="i/frames/9_30.png"/>
+	  <img class="frame" src="i/frames/10_0.png"/>
+	  <img class="frame" src="i/frames/10_30.png"/>
+	  <img class="frame" src="i/frames/11_0.png"/>
+	  <img class="frame" src="i/frames/11_30.png"/>
+	  <img class="frame" src="i/frames/12_0.png"/>
+	  <img class="frame" src="i/frames/12_30.png"/>
+	  <img class="frame" src="i/frames/13_0.png"/>
+	  <img class="frame" src="i/frames/13_30.png"/>
+	  <img class="frame" src="i/frames/14_0.png"/>
+	  <img class="frame" src="i/frames/14_30.png"/>
+	  <img class="frame" src="i/frames/15_0.png"/>
+	  <img class="frame" src="i/frames/15_30.png"/>
+	  <img class="frame" src="i/frames/16_0.png"/>
+	  <img class="frame" src="i/frames/16_30.png"/>
+	  <img class="frame" src="i/frames/17_0.png"/>
+	  <img class="frame" src="i/frames/17_30.png"/>
+	  <img class="frame" src="i/frames/18_0.png"/>
+	  <img class="frame" src="i/frames/18_30.png"/>
+	  <img class="frame" src="i/frames/19_0.png"/>
+	  <img class="frame" src="i/frames/19_30.png"/>
+	  <img class="frame" src="i/frames/20_0.png"/>
+	  <img class="frame" src="i/frames/20_30.png"/>
+	  <img class="frame" src="i/frames/21_0.png"/>
+	  <img class="frame" src="i/frames/21_30.png"/>
+	  <img class="frame" src="i/frames/22_0.png"/>
+	  <img class="frame" src="i/frames/22_30.png"/>
+	  <img class="frame" src="i/frames/23_0.png"/>
+	  <img class="frame" src="i/frames/23_30.png"/>
+	</div>
+	<div class="col-md-2">
+	  <figcaption style="text-align:left">
+	    Изменение активности районов Москвы в течение дня. Точка &mdash; адрес вызова такси. Чтобы остановить анимацию, нажмите и перетащите ползунок с меткой времени.
+	  </figcaption>
+	</div>
+
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <div id="slider">
+	    <div id="handle" class="ui-slider-handle"></div>
+	  </div>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p class="section">
+	    Утром такси вызывают к дому, вечером на работу, ночью в клуб. На карте цвет точки зависит от времени подачи машины:
+	  </p>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-10 col-md-offset-1">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/colors.png"/>
+	      <figcaption>
+		Точка &mdash; адрес вызова такси. Цвет <img class="inline" src="i/color_legend.png"/> определяется временем суток.
+	      </figcaption>
+	    </figure>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p class="section">
+	    Жёлтый и салатовый приходится на 4, 5 утра &mdash; на карте это ночные клубы. Офисы сиреневые и лиловые, туда такси вызывают после 19:00. Голубой &mdash; 12, 13 часов дня, возможно, соответствует больницам. Зелёный &mdash; это жилые дома, оттуда едут на работу в 8, 9 утра:
+	  </p>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-xs-4 col-md-3 col-md-offset-1">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/color_01.png"/>
+	      <figcaption>
+		Стрелка
+	      </figcaption>
+	    </figure>
+	</div>
+	<div class="col-xs-4 col-md-3">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/color_02.png"/>
+	      <figcaption>
+		Трёхгорная мануфактура и набережная Тараса Шевченко
+	      </figcaption>
+	    </figure>
+	</div>
+	<div class="col-xs-4 col-md-3">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/color_03.png"/>
+	      <figcaption>
+		Саввинская набережная
+	      </figcaption>
+	    </figure>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-xs-4 col-md-3 col-md-offset-1">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/color_04.png"/>
+	      <figcaption>
+		Вокзал и офисы на Белорусской
+	      </figcaption>
+	    </figure>
+	</div>
+	<div class="col-xs-4 col-md-3">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/color_05.png"/>
+	      <figcaption>
+		Деловой центр
+	      </figcaption>
+	    </figure>
+	</div>
+	<div class="col-xs-4 col-md-3">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/color_06.png"/>
+	      <figcaption>
+		Онкологический центр на Каширке
+	      </figcaption>
+	    </figure>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-xs-4 col-md-3 col-md-offset-1">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/color_07.png"/>
+	      <figcaption>
+		Корпуса университета имени Сеченова
+	      </figcaption>
+	    </figure>
+	</div>
+	<div class="col-xs-4 col-md-3">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/color_08.png"/>
+	      <figcaption>
+		Боткинская больница
+	      </figcaption>
+	    </figure>
+	</div>
+	<div class="col-xs-4 col-md-3">
+	    <figure class="figure">
+	      <img class="img-responsive" src="i/color_09.png"/>
+	      <figcaption>
+		Таганский район
+	      </figcaption>
+	    </figure>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p class="section">
+	    Исходный код и полные выкладки доступны в <a href="https://github.com/alexanderkuk/analyze-citymobil">репозитории на Гитхабе</a>.
+	  </p>
+	</div>
+      </div>
+
+      <div class="row">
+      	<div class="col-md-6 col-md-offset-2">
+      	  <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+      	  <script src="//yastatic.net/share2/share.js"></script>
+      	  <div class="ya-share2"
+      	       data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter"
+      	       data-counter="">
+      	  </div>
+      	</div>
+      </div>
+
+      <div id="footer" class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <span class="date">© 11111100001</span>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>

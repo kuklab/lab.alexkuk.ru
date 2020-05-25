@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8">
+    <title>Карта преступлений на территории Москвы</title>
+    <meta name="description" content="В каких районах Москвы происходит больше всего краж, убийств и разбоев?">
+    <meta name="keywords" content="кражи, разбой, убийства, побои, москва, карта, исследование">
+    <meta property="og:title" content="Карта преступлений на территории Москвы"/>
+    <meta property="og:description" content="В каких районах Москвы происходит больше всего краж, убийств и разбоев?"/>
+    <meta property="og:image" content="http://lab.alexkuk.ru/crime/i/tiser.png"/>
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Карта преступлений на территории Москвы">
+    <meta name="twitter:description" content="В каких районах Москвы происходит больше всего краж, убийств и разбоев?">
+    <meta name="twitter:image:src" content="http://lab.alexkuk.ru/crime/i/tiser.png">
+
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+
+    <script src="leaflet.js"></script>
+    <script src="jquery-3.2.1.min.js"></script>
+  
+    <!-- Yandex.Metrika counter --><script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter31090551 = new Ya.Metrika({ id:31090551, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="https://mc.yandex.ru/watch/31090551" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-64479295-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+	<div class="col-md-offset-0 col-md-2" id="home">
+	  <a href="/"><span class="hanging-arrow">←</span> Лаборатория анализа данных Кукушкина Александра</a>
+	</div>
+	<div class="col-md-6 col-md-offset-0">
+	  <h1>Карта преступлений на территории Москвы</h1>
+	  <div id="intro">
+	    В каких районах столицы происходит больше всего краж, убийств и разбоев?
+	  </div>
+	</div>
+	<div class="col-md-2 date">
+	    2017-08-08
+	</div>
+      </div>
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p>
+	    В июле 2017 года в рамках <a href="https://muf17-labs.timepad.ru/event/490415/">Московского урбанистического форума</a> нам стала доступна информация о преступлениях на территории Москвы за 2016 год.
+	  </p>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p>
+	    Государство ведёт подробный учёт правонарушений. Летом 2015 года столичные власти даже обещали сделать тепловую карту с адресами конкретных преступлений, но пока этого не случилось.
+	  </p>
+	</div>
+	<div class="col-md-2 note">
+	  <a href="http://www.m24.ru/articles/69590">Пресс-релиз</a> Москва 24, 2015 г.
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p>
+	    До сих пор в публичный доступ попадали данные о преступности округлённые до районов. 
+	  </p>
+	</div>
+	<div class="col-md-2 note">
+	  <a href="http://www.the-village.ru/village/business/figures/232885-crime-map-moscow">Какие районы Москвы опаснее других?</a> The Village, 2016 г.
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p>
+	    Сейчас у нас есть возможность посмотреть на число преступлений в Москве по квадратам размером 500 на 500 метров.
+	  </p>
+	  <p>
+	    Очаги краж и разбоев почти всегда хорошо объясняются наличием поблизости <a name="metro" class="hover">станций метро</a>, <a name="train" class="hover">вокзалов</a>, <a name="shop" class="hover">торговых центров</a> или просто оживлённых улиц. Посмотрите, например, на <a name="arbat" class="hover">Новый Арбат</a>:
+	  </p>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-8 col-md-offset-0">
+	  <div id="m21" class="map"></div>
+	</div>
+	<div class="col-md-2 note">
+	  <p>
+	    Чем ярче ячейка на карте, тем больше краж и разбоев там произошло в 2016 году.
+	  </p>
+	  <div>
+	    <input type="checkbox" id="metro" name="metro" value="metro">
+	    <label for="metro">Станции метро</label>
+	  </div>
+	  <div>
+	    <input type="checkbox" id="shop" name="shop" value="shop">
+	    <label for="shop">Торговые центры</label>
+	  </div>
+	  <div>
+	    <input type="checkbox" id="train" name="train" value="train">
+	    <label for="train">Вокзалы</label>
+	  </div>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p class="section">
+	    Сложнее интерпретировать карту убийств и побоев. Такие преступления часто происходят на бытовой почве в спальных районах. Почему активность выше именно на севере и западе города тяжело сказать.
+	  </p>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-8 col-md-offset-0">
+	  <div id="m16" class="map"></div>
+	</div>
+	<div class="col-md-2 note">
+	  Карта убийств и побоев за 2016 год. Чем ярче ячейка, тем больше преступлений.
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p class="section">
+	    Мы видим, что в публикации данных о преступности по районам и округам мало смысла. Район же не виноват, что на его территории, например, 5 станций метро и 2 торговых центра.
+	  </p>
+	  <p>
+	    Хорошо бы подробнее различать типы преступлений. Побои и убийства &mdash; это всё-таки разные вещи. Таких данных у нас пока нет.
+	  </p>
+	</div>
+      </div>
+
+      <div class="row">
+      	<div class="col-md-6 col-md-offset-2">
+      	  <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+      	  <script src="//yastatic.net/share2/share.js"></script>
+      	  <div class="ya-share2"
+      	       data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter"
+      	       data-counter="">
+      	  </div>
+      	</div>
+      </div>
+
+      <div id="footer" class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <span class="date">© 11111100001</span>
+	</div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

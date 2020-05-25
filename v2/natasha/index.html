@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8">
+    <title>Извлечения фактов из русскоязычных текстов</title>
+    <meta name="description" content="Упоминания персон, названия и контакты организаций, даты, адреса, суммы денег">
+    <meta name="keywords" content="наташа, русский, извлечение фактов, natasha, ner, fact extraction, russian">
+
+    <meta property="og:title" content="Извлечения фактов из русскоязычных текстов"/>
+    <meta property="og:description" content="Упоминания персон, названия и контакты организаций, даты, адреса, суммы денег"/>
+    <!-- <meta property="og:image" content=""/> -->
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Извлечения фактов из русскоязычных текстов">
+    <meta name="twitter:description" content="Упоминания персон, названия и контакты организаций, даты, адреса, суммы денег">
+    <!-- <meta name="twitter:image:src" content=""> -->
+
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Yandex.Metrika counter --><script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter31090551 = new Ya.Metrika({ id:31090551, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="https://mc.yandex.ru/watch/31090551" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-64479295-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+	<div class="col-md-12" id="home">
+	  <a href="/"><span class="hanging-arrow">←</span> Лаборатория анализа данных Кукушкина Александра</a>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-7 col-md-offset-0">
+	  <h1>Извлечения структурированной информации из текстов на русском языке</h1>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-7 col-md-offset-0">
+	  <p>Лаборатория предоставляет услуги извлечения фактов из русскоязычных текстов. Результатом работы может быть разовый расчёт, коробочное решение или веб-сервис.</p>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-0">
+	  <h2>Примеры</h2>
+	</div>
+      </div>
+	
+      <div class="row">
+	<div class="col-md-6 col-md-offset-0">
+	  <h3>Арбитражные дела</h3>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-0">
+	  <p>Для подготовки к судебным заседаниям юристы изучают историю дел судей по отдельным статьям. Для поиска и фильтрации из текстов дел извлекается ключевая информация:</p>
+	  <div class="example">
+	    <div class="text">
+	      Арбитражный суд Ростовской области в составе судьи <mark class="judge">Рябухи С.Н.</mark> рассмотрев в судебном заседании дело по заявлению общества с ограниченной ответственностью «<mark class="org">ЭПП</mark>» (ИНН 6164267798 ОГРН 1076164010262) к открытому акционерному обществу «<mark class="org">Ростовский порт</mark>» (ИНН 6167014330 ОГРН 1026104143780) <mark class="topic">о взыскании 196227,21руб</mark>…
+	    </div>
+	    <div class="fact">
+{
+  "judges": [
+    {
+      "position": "судья",
+      "name": {
+        "last": "Рябухи",
+        "first": "С",
+        "middle": "Н"
+      },
+    }
+  ],
+  "claimant": {
+    "type": "Общество с ограниченной ответственностью",
+    "name": "ЭПП",
+    "attributes": {
+      "inn": "6164267798",
+      "ogrn": "1076164010262"
+    }
+  },
+  "defendant": {
+    "type": "Общество с ограниченной ответственностью",
+    "name": "Ростовский порт",
+    "attributes": {
+      "inn": "6167014330",
+      "ogrn": "1026104143780"
+    }
+  },
+  "topic": "о взыскании 196227,21руб"
+}
+	    </div>
+	  </div>
+	</div>
+
+	<div class="col-md-6">
+	  <div class="example">
+	    <div class="text">
+	      Руководствуясь статьями <mark class="refence">110, 167 - 169, 216 Арбитражного процессуального кодекса РФ</mark>, Арбитражный суд Вологодской области…
+	    </div>
+	    <div class="fact">
+{
+  "refences": [
+    {
+      "article": 110,
+      "source": "АПК"
+    },
+    {
+      "article": 167,
+      "source": "АПК"
+    },
+    {
+      "article": 168,
+      "source": "АПК"
+    },
+    …
+  ]
+}
+	    </div>
+	  </div>
+
+	  <div class="example">
+	    <div class="text">
+	      Взыскать с индивидуального предпринимателя <mark class="org">Капуновой Валентины Константиновны</mark> в доход Пенсионного фонда Российской Федерации финансовые санкции в сумме <mark class="money">1039 (одна тысяча тридцать девять) руб. 20 (двадцать) коп</mark>.
+	    </div>
+	    <div class="fact">
+{
+  "paying": {
+    "type": "Индивидуальный предприниматель",
+    "name": {
+      "last": "Капунова",
+      "first": "Валентина",
+      "middle": "Константиновна"
+    }
+  },
+  "penalties": [
+    {
+      "type": "финансовые санкции",
+      "money": {
+        "amount": 1039.2,
+        "currency": "RUB"
+      }
+    }
+  ]
+}	      
+	    </div>
+	  </div>
+
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-0">
+	  <h3>Контакты компаний</h3>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-0">
+	  <p>В ЕГРЮЛ не всегда содержится актуальная информация о телефоне и адресе организаций. Такие данные лучше искать на сайте компаний:</p>
+	  <div class="example">
+	    <div class="text pre">
+Горячая линия:
+
+<mark class="phone">8 800 100 84 48</mark>
+
+Звонки по России бесплатно   
+Время работы операторов: с 9.00 до 18.00
+
+Головной офис
+
+<mark class="address">192241, г.Санкт-Петербург, 
+
+Южное шоссе, д.37, корпус 4</mark>
+
+Карта проезда
+
+т/ф: <mark class="phone">+7 (812) 708-84-27</mark>
+	    </div>
+	    <div class="fact">
+{
+  "phones": [
+    "+7 800 100-84-48",
+    "+7 812 708-84-27"
+  ],
+  "addresses": [
+    {
+      "parts": [
+        {"value": 192241, "type": "индекс"},
+        {"name": "Санкт-Петербург", "type": "город"},
+        {"name": "Южное", "type": "шоссе"},
+        {"number": 37, "type": "дом"},
+        {"number": 4, "type": "корпус"}
+      ]
+    }
+  ]
+}
+	    </div>
+	  </div>
+	</div>
+
+	<div class="col-md-6">
+	  <div class="example">
+	    <div class="text pre">Наш адрес:   
+<mark class="address">Россия, 190020,г. Санкт-Петербург,  
+
+Старо-Петергофский пр., д. 43-45, лит. Б, офис 4Н</mark>
+  
+Магазин работает с 10.00 до 18.00   
+Суббота, воскресенье – выходные 
+
+Телефон: <mark class="phone">+7 (812) 495-43-01</mark>
+Факс: <mark class="fax">+7 (812) 325-35-23</mark>
+
+Email: 
+
+<mark class="email">shop@gold10.ru</mark>
+
+Реквизиты: 
+
+ООО «Голд 10 Маркет»
+ИНН:<mark class="inn">7840038965</mark>; КПП:<mark class="kpp">784001001</mark>;
+	    </div>
+	    <div class="fact">
+{
+  "phones": ["+7 812 495-43-01"],
+  "faxes": ["+7 812 325-35-23"],
+  "emails": ["shop@gold10.ru"],
+  "addresses": [
+    {
+      "parts": [
+        {"name": "Россия", "type": "страна"},
+        {"value": 190020, "type": "индекс"},
+        {"name": "Санкт-Петербург", "type": "город"},
+        {"name": "Старо-Петергофский", "type": "проспект"},
+        {"number": "43-45", "type": "дом"},
+        {"value": "Б", "type": "литер"},
+        {"value": "4Н", "type": "офис"},
+      ]
+    }
+  ],
+  "inn": "7840038965",
+  "kpp": "784001001"
+}
+	    </div>
+	  </div>
+
+	  <div class="example">
+	    <div class="text">
+	    </div>
+	    <div class="fact">
+	    </div>
+	  </div>
+
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-0">
+	  <h3>Новости</h3>
+	  <p>Для подсчёта упоминаний из текстов новостей извлекаются имена и должности людей:</p>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-0">
+	  <div class="example">
+	    <div class="text">
+	      Байкеры мотоклуба «Ночные волки» совместно с <mark class="person">главой Чечни Рамзаном Кадыровым</mark> совершили мотопробег, посвященный дню рождения <mark class="person">президента РФ Владимира Путина</mark>. Об этом сообщил в «ВКонтакте» сам <mark class="person">Кадыров</mark>. «В среду вечером мы организовали мотопробег, посвященный дню рождения <mark class="person">президента России Владимира Путина</mark>…
+	    </div>
+	    <div class="fact">
+{
+  "coreferences": [
+    {
+      "position": "глава Чечни",
+      "name": {
+        "last": "Кадыров",
+        "first": "Рамзан",
+      }
+    },
+    {
+      "position": "президент России",
+      "name": {
+        "last": "Путин",
+        "first": "Владимир",
+      }
+    }
+  ]	      
+}
+	    </div>
+	  </div>
+	</div>
+	<div class="col-md-6">
+
+	  <div class="example">
+	    <div class="text">
+	      Белый дом расследует утечки информации о телефонных переговорах <mark class="person">президента США Дональда Трампа</mark> с иностранными лидерами. Об этом, как сообщает The Hill, заявил <mark class="person">пресс-секретарь Белого дома Шон Спайсер</mark>…
+	    </div>
+	    <div class="fact">
+{
+  "coreferences": [
+    {
+      "position": "президент США",
+      "name": {
+        "last": "Трамп",
+        "first": "Дональд",
+      }
+    },
+    {
+      "position": "пресс-секретарь Белого дома",
+      "name": {
+        "last": "Шон",
+        "first": "Спейсер",
+      }
+    }
+  ]	      
+}
+	    </div>
+	  </div>
+
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-0">
+	  <h3>Резюме</h3>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-0">
+	  <p>Рекрутеры получают резюме в формате PDF и DOC. Для удобства ведения списка кандидатов, из документов извлекается имя, возраст, последнее место работы, желаемая должность и зарплата:</p>
+	  <div class="example">	    
+	    <div class="text pre">
+<mark class="gender">Женщина</mark>, 38 лет, родилась <mark class="birth">13 февраля 1978</mark>
+
+Проживает: <mark class="location">Новосибирск</mark>
+Гражданство: <mark class="location">Россия</mark>, есть разрешение на работу: <mark class="location">Россия</mark>
+Не готова к переезду, не готова к командировкам
+
+Желаемая должность и зарплата
+<mark class="position">Менеджер-аналитик</mark>
+<mark class="specialization">Продажи</mark>
+
+• Дилерские сети
+• Дистрибуция
+• Менеджер по работе с клиентами
+
+<mark class="money">25 000
+руб.</mark>
+	    </div>
+	    <div class="fact">
+{
+  "gender": "female",
+  "birth": {
+    "year": 1978,
+    "month": 2,
+    "day": 13
+  },
+  "location": {
+    "area": "Новосибирск",
+    "metro": null
+  },
+  "citizen_of": [
+    "Россия"
+  ],
+  "permission_for": [
+    "Россия"
+  ],
+  "relocation": false,
+  "travel": false,
+  "position": "Менеджер-аналитик",
+  "specialization": "Продажи",
+  "salary": {
+    "amount": 25000,
+    "currency": "RUB"
+  }
+}	    </div>
+	  </div>
+	</div>
+	<div class="col-md-6">
+
+	  <div class="example">
+	    <div class="text pre">Опыт работы - 1 год 8 месяцев
+<mark class="date">Июль 2011</mark> -
+<mark class="date">Октябрь 2012</mark>
+1 год 4 месяца
+
+<mark class="org">КФ ОАО Ростпечать</mark> (продажа газетно-журнальной продукции и
+сопутствующих товаров)
+Семикаракорск
+
+<mark class="position">Бухгалтер-ревизор</mark>
+Проведение ревизий, начисление зп, сдача отчета в ФСС, 2 НДФЛ, помощь киоскерам в сдаче отчета, замещение кассира(принятие наличности от киоскеров и сдача ее в банк, ведение кассовой книги).
+
+<mark class="date">Август 2010</mark> -
+<mark class="date">Ноябрь 2010</mark>
+4 месяца
+
+<mark class="org">ЗАО Аксинья</mark>
+Ростовская область
+
+<mark class="position">Бухгалтер по реализации</mark>
+Выписка торг 12, ттн, пко, рко, проведение ревизий
+
+	    </div>
+	    <div class="fact">
+[
+  {
+    "period": {
+      "start": {"year": 2011, "month": 7},
+      "stop": {"year": 2012, "month": 10}
+    },
+    "position": "Бухгалтер-ревизор",
+    "company": {
+      "name": "КФ ОАО Ростпечать",
+      "area": "Семикаракорск",
+    }
+  },
+  {
+    "period": {
+      "start": {"year": 2010, "month": 8},
+      "stop": {"year": 2010, "month": 11}
+    },
+    "position": "Бухгалтер по реализации",
+    "company": {
+      "name": "ЗАО Аксинья",
+      "area": "Ростовская область",
+     }
+  }
+]
+	    </div>
+	  </div>
+
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-0">
+	  <h3>ФСЭМ</h3>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-0">
+	  <p>С 2007 года Минюст ведёт список материалов, признанных судом экстремистскими. Записи приходят из разных регионов страны и оформлены по-разному. Для поиска и блокировки описание материалов приводятся к общему виду:</p>
+	  <div class="example">
+	    <div class="text">
+	      Стихотворение <mark class="author">Алексея Серенина</mark> «<mark class="title">Россия! Ты слышишь?! - Народ твой опять называют фашистом!</mark>» из сборника «<mark class="source">Запрещенные стихи</mark>» (решение Новоспасского районного суда Ульяновской области от 02.02.2012);
+	    </div>
+	    <div class="fact">
+{
+  "type": "Стихотворение",
+  "title": "Россия! Ты слышишь?! - Народ твой опять называют фашистом!",
+  "author": {
+    "name": {
+      "first": "Алексей",
+      "middle": "Серенин",
+    }
+  },
+  "source": {
+    "type": "сборник",
+    "name": "Запрещенные стихи",
+  }
+}	      
+	    </div>
+	  </div>
+	</div>
+	<div class="col-md-6">
+
+	  <div class="example">
+	    <div class="text">
+	      Видеоролик под названием «<mark class="title">Русский выбирает НС</mark>», продолжительностью <mark class="duration">01 мин. 06 сек.</mark>, размещенный на интернет-странице по электронному адресу: <mark class="url">http://youtube.com/watch?v=7urD5h6PTQg</mark> (решение Центрального районного суда г. Хабаровска от 12.05.2014);
+	    </div>
+	    <div class="fact">
+{
+  "type": "Видеоролик",
+  "title": "Русский выбирает НС",
+  "source": {
+    "type": "интернет-страница",
+    "url": "http://youtube.com/watch?v=7urD5h6PTQg"
+  },
+  "duration": {     <span class="comment">Точная длительность помогает находить</span>
+    "minutes": 1,   <span class="comment">материалы на страницах со встроенным плеером</span>
+    "seconds": 6
+  }
+}
+	    </div>
+	  </div>
+
+	  <div class="example">
+	    <div class="text">
+	      Текст песни «<mark class="title">Просторы Европы</mark>» музыкальной группы «<mark class="author">Циклон Б</mark>» (решение Нагатинского суда г. Москвы от 01.10.2007).
+	    </div>
+	    <div class="fact">
+{
+  "type": "Текст песни",
+  "title": "Просторы Европы",
+  "author": {
+    "type": "музыкальная группа",
+    "name": "Циклон Б"
+  }
+}	      
+	    </div>
+	  </div>
+	</div>
+      </div>
+	
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <h2>Принцип работы</h2>
+	  <p>Информация извлекается с помощью набора словарей и правил. Упрощённое решение для поиска имён будет выглядеть так:</p>
+	  <div class="grammar">
+name → first                 <span class="comment">Борис, рашид, Том</span>
+       last                  <span class="comment">Королёв, Трамп, жирик</span>
+       first last            <span class="comment">Николь Кидман</span>
+       abbr . abbr . last    <span class="comment">А.С.Пушкин</span>
+       <span class="no">middle first last     <span class="comment">Иванович Иван Иванов</span></span>
+       first middle last     <span class="comment">Анна Павловна Шерер</span>
+	  </div>
+	  <p>На практике всё сложнее. Например, слова «вера», «любовь», «серёжка», «лев» — это не всегда имена. Нормальная форма для «сашу иванову» — «саша иванова», а для «саше иванову» — «саша иванов». Части имени должны быть согласованы, например, на «рамзаном ахматовичу» правило не должно срабатывать.</p>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <h2>Качество</h2>
+	  <p>Арбитражные дела, резюме, страницы с контактами используют контролируемый естественный язык. Для таких текстов точность разбора обычно выше 95%, борьба идёт за полноту. Например, на страницах с контактами адрес находится в ~80% случаев, суммы взысканий в арбитражных делах разбираются только в 60% текстов.</p>
+	  <p>Для новостей, постов в социальных сетях и других текстов на естественном языке качество зависит от источника. Например, точность разбора имён в новостях ~75%, в отзывах на школьных учителей — 90%. Качество других коммерческих решений для этой задачи 85% и выше.</p>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <h2>Скорость</h2>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p>Скорость обработки зависит от текста и сложности правил. Например, имена из новостей извлекаются со скоростью 20 статей в секунду<sup>*</sup>. Скорость яндексового Томита-парсера на этой задаче 120 текстов в секунду. Правила для адресов сложнее, скорость обработки страниц с контактами компаний 2 штуки в секунду.</p>
+	  <p>Для обработки больших объёмов данных парсер запускается на нескольких машинах.</p>
+	</div>
+	<div class="note col-md-2">
+	  <sup class="hanging-star">*</sup>Все измерения проводились с интерпретатором PyPy
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <h2>Услуги</h2>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <p>Решения строятся на технологии «<a href="https://github.com/natasha">Наташа</a>». Лаборатория один из основных разработчиков проекта. В открытом доступе находятся правила и словари для извлечения имён, адресов, названий организаций, дат и сумм денег.</p>
+	  <p>На практике готовых правил не всегда хватает для решения бизнес-задач. Мы предлагаем услуги по разработке новых правил и доработке существующих. Результатом работы может быть коробочное решение, работающее у заказчика, или веб-сервис с оплатой по подписке.</p>
+	  <p>Для оценки сроков и стоимости, пожалуйста, напишите письмо на <a href="mailto:alex@alexkuk.ru">alex@alexkuk.ru</a>. <!-- <span class="logo">▅▂▁▅▇</span> -->
+</p>
+	</div>
+      </div>
+
+      <div id="share" class="row">
+	<div class="col-md-6 col-md-offset-2">
+	  <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+	  <script src="//yastatic.net/share2/share.js"></script>
+	  <div class="ya-share2"
+	       data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter"
+	       data-counter="">
+	  </div>
+	</div>
+      </div>
+
+
+
+    </div>
+  </body>
+</html>
+
+
+

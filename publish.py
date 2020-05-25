@@ -1,6 +1,7 @@
-#!/usr/bin/env python
 
-from subprocess import check_call as run
+import sys
+from datetime import datetime
+from subprocess import check_call
 from os import getcwd, chdir
 from os.path import join
 from shutil import rmtree, copytree
@@ -8,7 +9,7 @@ from tempfile import mkdtemp
 from contextlib import contextmanager
 
 
-REPO = 'git@github.com:alexanderkuk/lab.alexkuk.ru.git'
+REPO = 'git@github.com:kuk/lab.alexkuk.ru.git'
 
 
 @contextmanager
@@ -30,9 +31,24 @@ def cwd(path):
         chdir(old_path)
 
 
-def publish():
+def log(format, *args):
+    message = format % args
+    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    print(
+        '[%s] %s' % (now, message),
+        file=sys.stderr
+    )
+
+
+def run(command):
+    log(command)
+    check_call(command)
+
+
+def main():
     with tmpdir() as root:
         path = join(root, 'html')
+        log('Copy to %r', path)
         copytree('.', path)
         with cwd(path):
             run(['touch', '.nojekyll'])
@@ -43,4 +59,4 @@ def publish():
 
 
 if __name__ == '__main__':
-    publish()
+    main()

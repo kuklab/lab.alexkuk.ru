@@ -1,0 +1,103 @@
+Как погрепать интернет
+
+Аналитикам иногда нужно отвечать на вопросы вроде таких: "сколько сайтов используют WordPress, а сколько Ghost", "какое покрытие у Google Analytics, а какое у Метрики", "как часто сайт X ссылается на сайт Y". Самый честный способ на них ответить — пройтись по всем страничкам в интернете и посчитать. Эта идея не такая безумная, как может показаться. Существует проект <a href="http://commoncrawl.org/">Сommoncrawl</a>, который каждый месяц публикует <a href="http://commoncrawl.org/the-data/get-started/">свежий дамп интернета</a> в виде gzip-архивов суммарным размером в ~30Тб. Данные лежат на S3, поэтому для обработки обычно используется MapReduce от Amazon. Есть <a href="https://github.com/commoncrawl/cc-mrjob#running-via-elastic-mapreduce">масса инструкций про то, как это делать</a>. Но с текущим курсом доллара такой подход стал немного дороговат. Я хотел бы поделиться способом, как удешевить расчёт примерно в два раза.
+<img src="https://habrastorage.org/files/85c/006/071/85c006071e2541bc9e65d90abd4e1fcc.gif"/>
+<cut />
+Commoncrawl публикует <a href="http://blog.commoncrawl.org/2015/08/july-2015-crawl-archive-available/">список ссылок на S3</a>. За июль 2015, например, он выглядит так:<source lang="python">
+common-crawl/crawl-data/CC-MAIN-2015-32/segments/1438042981460.12/warc/CC-MAIN-20150728002301-00000-ip-10-236-191-2.ec2.internal.warc.gz
+common-crawl/crawl-data/CC-MAIN-2015-32/segments/1438042981460.12/warc/CC-MAIN-20150728002301-00001-ip-10-236-191-2.ec2.internal.warc.gz
+common-crawl/crawl-data/CC-MAIN-2015-32/segments/1438042981460.12/warc/CC-MAIN-20150728002301-00002-ip-10-236-191-2.ec2.internal.warc.gz
+common-crawl/crawl-data/CC-MAIN-2015-32/segments/1438042981460.12/warc/CC-MAIN-20150728002301-00003-ip-10-236-191-2.ec2.internal.warc.gz
+common-crawl/crawl-data/CC-MAIN-2015-32/segments/1438042981460.12/warc/CC-MAIN-20150728002301-00004-ip-10-236-191-2.ec2.internal.warc.gz
+...
+</source>
+По каждой ссылке доступен архив на ~800Мб, примерно такого содержания:<source lang="python">
+WARC/1.0
+WARC-Type: request
+WARC-Date: 2015-08-05T12:38:42Z
+WARC-Record-ID: <urn:uuid:886377b3-62eb-4333-950a-85caa9a8bce8>
+Content-Length: 322
+Content-Type: application/http; msgtype=request
+WARC-Warcinfo-ID: <urn:uuid:54b96beb-b4cc-4f71-a1bf-b83c72aac9ad>
+WARC-IP-Address: 88.151.247.138
+WARC-Target-URI: http://0x20.be/smw/index.php?title=Special:RecentChangesLinked&hideanons=1&target=Meeting97
+
+GET /smw/index.php?title=Special:RecentChangesLinked&hideanons=1&target=Meeting97 HTTP/1.0
+Host: 0x20.be
+Accept-Encoding: x-gzip, gzip, deflate
+User-Agent: CCBot/2.0 (http://commoncrawl.org/faq/)
+Accept-Language: en-us,en-gb,en;q=0.7,*;q=0.3
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+WARC/1.0
+WARC-Type: response
+WARC-Date: 2015-08-05T12:38:42Z
+WARC-Record-ID: <urn:uuid:17460dab-43f2-4e1d-ad99-cc8cfceb32fd>
+Content-Length: 21376
+Content-Type: application/http; msgtype=response
+WARC-Warcinfo-ID: <urn:uuid:54b96beb-b4cc-4f71-a1bf-b83c72aac9ad>
+WARC-Concurrent-To: <urn:uuid:886377b3-62eb-4333-950a-85caa9a8bce8>
+WARC-IP-Address: 88.151.247.138
+WARC-Target-URI: http://0x20.be/smw/index.php?title=Special:RecentChangesLinked&hideanons=1&target=Meeting97
+WARC-Payload-Digest: sha1:6Z77MXWXHJYEHC75LGTN3UQMYVJAEPPL
+WARC-Block-Digest: sha1:MQ4GSG7X7EU6H26SMF2NS5MADZULHOPK
+WARC-Truncated: length
+
+HTTP/1.1 200 OK
+Date: Wed, 05 Aug 2015 12:31:01 GMT
+Server: Apache/2.2.22 (Ubuntu)
+X-Powered-By: PHP/5.3.10-1ubuntu3.19
+X-Content-Type-Options: nosniff
+Content-language: en
+X-Frame-Options: SAMEORIGIN
+Vary: Accept-Encoding,Cookie
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+Cache-Control: private, must-revalidate, max-age=0
+Last-Modified: Fri, 31 Jul 2015 02:16:39 GMT
+Content-Encoding: gzip
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="client-nojs">
+<head>
+<meta charset="UTF-8" /><title>Changes related to "Meeting97" - Whitespace (Hackerspace Gent)</title>
+...
+</source>
+Куча заголовков и с ходу ничего не понятно. Существуют <a href="https://github.com/internetarchive/warc">специальные библиотеки для парсинга таких данных</a>, но я использую код вида:<source lang="python">
+url_line = None
+for line in sys.stdin:
+    if line.startswith('WARC-Target-URI'):
+        url_line = line
+    elif url_line is not None:
+        if 'www.google-analytics.com/analytics.js' in line:
+            # Strip 'WARC-Target-URI: ' and '\r\n'
+            yield url_line[17:-2]
+</source>
+Так получается раз в 10 быстрее по скорости и попроще при деплое. Можно прямо со своего компьютера запустить команду вида:<source lang="bash">
+curl https://aws-publicdatasets.s3.amazonaws.com/common-crawl/crawl-data/CC-MAIN-2015-32/segments/1438044271733.81/warc/CC-MAIN-20150728004431-00294-ip-10-236-191-2.ec2.internal.warc.gz | gunzip | python grep.py
+</source>
+И получить список страничек с Google Analytics. Это совершенно бесплатно. Проблема только в том, что процесс займёт несколько минут и его нужно будет повторить ~30 000 раз для разных кусочков архива. Чтобы как-то ускорить расчёт обычно используют Elastic MapReduce и обрабатывают кусочки параллельно. Важно заметить, что воркеры также качают данные из S3, а не читают их из HDFS. Сколько будет стоить такое решение? Это <a href="https://aws.amazon.com/ru/elasticmapreduce/pricing/">зависит от региона и от машинок, которые будут использоваться</a>. 
+
+С регионом понятно — нужно брать тот, который поближе к данным, то есть "Запад США". А вот с машинками непросто. Если взять совсем дешёвых будет долго считаться, если взять мощных будет дорого. Чтобы определиться, я арендовал 6 разных тачек и запустил на них команду, как в примере выше. Получилось, что на самой простой машине я смогу обрабатывать ~10 кусочков архива за час, а на самой крутой — ~1000. Умножив это на цены за аренду машин и за настройку на них MapReduce, увидел интересное: выгоднее брать самые супер пупер крутые тачки. Финальная цена получится меньше и кластер будет компактнее.
+<img src="https://habrastorage.org/files/849/762/f45/849762f45da04611bacb8ddd9fb53d22"/>
+
+Здорово, но цена в ~70$ не радует, особенно если нужно повторить расчёт на нескольких месяцах, чтобы проследить динамику. У Амазона есть такая прекрасная штука — <a href="https://aws.amazon.com/ru/ec2/spot/">спот-инстансы</a>. <a href="https://aws.amazon.com/ru/ec2/spot/pricing/">Цены на них значительно ниже</a> и меняются во времени. 
+<img src="https://habrastorage.org/files/052/78a/848/05278a848d4b45eabd13ec52e6e7c80c"/>
+
+Самую крутую модель, которая обычно стоит 1.68$ за час, можно арендовать за ~0.3$. В чём подвох? Если найдётся, кто-то кто захочет дать больше, машину жёстко тушат, ничего не сохраняют и передают этому человеку. Чтобы погрепать интернет спот-инстансы подходят идеально. Даже если вычисления прервут, их легко возобновить. Жалко только, что за настройку MapReduce на спот-инстансах Амазон скидки не даёт:
+<img src="https://habrastorage.org/files/58a/8ce/60b/58a8ce60bf944c12abdbe044f2f30dfb"/>
+
+Уже значительно лучше. Но теперь обидно платить за MapReduce ~0.3$, когда вся машина стоит ~0.3$. Особенно учитывая, что ни HDFS, ни reduce-ступень не используется. Здесь, наверное, и становится понятно, как можно сократить стоимость расчёта в два раза. Грубо говоря, нужно запилить свой MapReduce на коленочке. Для данной задачи это сделать несложно. Нужно просто написать <a href="https://gist.github.com/alexanderkuk/d4ca86810ee81ba87f73">скрипт, который всё делает сам</a>: скачивает архив, распаковывает его и грепает. И запустить его за нескольких машинах с разными параметрами, я делал это через screen примерно так: <source lang="bash">
+scp run_grep.py ubuntu@machine1:~
+ssh ubuntu@machine1 -t 'screen -d -r "python run_grep.py 2015-07 0 1000"'
+scp run_grep.py ubuntu@machine2:~
+ssh ubuntu@machine2 -t 'screen -d -r "python run_grep.py 2015-07 1000 2000"'
+scp run_grep.py ubuntu@machine3:~
+ssh ubuntu@machine3 -t 'screen -d -r "python run_grep.py 2015-07 2000 3000"'
+...
+</source> 
+Если ещё немного напрячься и настроить сбор логов с машин, можно сделать себе роскошный мониторинг:
+<img src="https://habrastorage.org/files/85c/006/071/85c006071e2541bc9e65d90abd4e1fcc.gif"/>

@@ -3,544 +3,678 @@
   <head>
     <meta charset="utf8">
 
-    <meta name="description" content="Лаборатория решает задачи анализа данных на заказ: сбор, обработка, анализ и визуализация данных.">
-    <meta name="keywords" content="анализ данных, сбор данных, обработка данных, визуализация, социальные сети, открытые данные, классификация, графы, карты">
-    <meta property="og:title" content="Лаборатория анализа данных Кукушкина Александра"/>
-    <meta property="og:description" content="Лаборатория решает задачи анализа данных на заказ: сбор, обработка, анализ и визуализация данных."/>
-    <meta property="og:image" content="http://lab.alexkuk.ru/i/tiser.png"/>
+    <meta name="description" content="Сбор, обработка, анализ, визуализация данных. Исследования, разработка сервисов и коробочных продуктов.">
+    <meta name="keywords" content="анализ данных, сбор данных, обработка данных, визуализация, исследования, коробочный продукт, сервис">
+    <meta property="og:title" content="Лаборатория анализа данных Александра Кукушкина"/>
+    <meta property="og:description" content="Сбор, обработка, анализ, визуализация данных. Исследования, разработка сервисов и коробочных продуктов."/>
+    <meta property="og:image" content="http://lab.alexkuk.ru/images/preview.png"/>
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Лаборатория анализа данных Кукушкина Александра">
-    <meta name="twitter:description" content="Лаборатория решает задачи анализа данных на заказ: сбор, обработка, анализ и визуализация данных.">
-    <meta name="twitter:image:src" content="http://lab.alexkuk.ru/i/tiser.png">
+    <meta name="twitter:title" content="Лаборатория анализа данных Александра Кукушкина">
+    <meta name="twitter:description" content="Сбор, обработка, анализ, визуализация данных. Исследования, разработка сервисов и коробочных продуктов.">
+    <meta name="twitter:image:src" content="http://lab.alexkuk.ru/images/preview.png">
 
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/style.css">
 
-    <script src="d3.v3.min.js" charset="utf-8"></script>
+    <title>Лаборатория анализа данных Александра Кукушкина</title>
 
-    <title>Лаборатория анализа данных Кукушкина Александра</title>
-    <!-- Yandex.Metrika counter --><script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter31090551 = new Ya.Metrika({ id:31090551, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="https://mc.yandex.ru/watch/31090551" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-KMSWM6G');</script>
+    <!-- End Google Tag Manager -->
 
-      ga('create', 'UA-64479295-1', 'auto');
-      ga('send', 'pageview');
 
-    </script>
   </head>
   <body>
-    <div class="container">
-      <div class="row" id="title">
-      	<div class="col-xs-1">
-	  <div id="logo"></div>
-	</div>
-	<div class="col-xs-8">
-	  <h1>Лаборатория анализа данных Кукушкина Александра</h1>
-	</div>
-	<div class="col-xs-3">
-	  <div class="contact">
-	    <a href="tel:+79163668039" class="tel">+7 916 366-80-39</a>
-	  </div>
-	  <div class="contact">
-	    <a href="mailto:alex@alexkuk.ru">alex@alexkuk.ru</a>
-	  </div>
-	</div>
-
-      </div>
-
-      <div class="row">
-	<div id="hero" class="col-sm-8 col-sm-offset-1">
-	  <a href="#gather" class="anchor">Сбор</a>, <a href="#process" class="anchor">обработка</a>, <a href="#analyze" class="anchor">анализ</a> и <a href="#viz" class="anchor">визуализация</a> данных.
-	</div>
-      </div>
-
-      <div class="row">
-      	<div class="col-sm-8 col-sm-offset-1">
-	  Лаборатория решает задачи анализа данных на заказ. Выделяются четыре типа услуг: сбор данных, обработка, анализ и визуализация. Заказчик редко приходит с готовыми данными, поэтому в лаборатории накоплен опыт по сбору и обработке информации из открытых источников. Результат анализа &mdash; код и отчёт. Отчёт состоит из текста и иллюстраций. Чтобы иллюстрации получались понятные и красивые, набили руку в визуализации.
-      	</div>
-      </div>
-
-      <div class="row">
-	<a name="gather"></a>
-	<div class="col-sm-8 col-sm-offset-1">
-	  <center class="hr"></center>
-	  <h2>Сбор данных</h2>
-	  Иногда данных, накопленных бизнесом, нет или их недостаточно для решения задачи. В таких случаях мы обращаемся к открытым источникам и платным базам данных.
-      	</div>
-      </div>
-
-      <div class="row">
-      	<div class="col-sm-4 col-sm-offset-1">
-	  <h3>Социальные сети</h3>
-	  Мы собираем данные из ВКонтакте и более сложных для обработки сетей: Twitter, Instagram и LinkedIn.
-      	</div>
-
-      	<div class="col-sm-4">
-	  <h3>Интернет</h3>
-	  Лабораторный кластер скачивает 10<sup>6</sup> страниц в час и обрабатывает сложные ситуации: капчи, блокировки.
-      	</div>
-
-      	<div class="col-sm-2" id="captcha">
-	  <img src="i/captcha/343231.png" class="frame visible"/>
-	  <img src="i/captcha/343231_e.png" class="frame hidden"/>
-	  <img src="i/captcha/343231_r.png" class="frame hidden"/>
-	  <div class="frame hidden"><span class="decoded">343231</span></div>
-
-	  <img src="i/captcha/404727.png" class="frame hidden"/>
-	  <img src="i/captcha/404727_e.png" class="frame hidden"/>
-	  <img src="i/captcha/404727_r.png" class="frame hidden"/>
-	  <div class="frame hidden"><span class="decoded">404727</span></div>
-
-	  <img src="i/captcha/601208.png" class="frame hidden"/>
-	  <img src="i/captcha/601208_e.png" class="frame hidden"/>
-	  <img src="i/captcha/601208_r.png" class="frame hidden"/>
-	  <div class="frame hidden"><span class="decoded">601208</span></div>
-	</div>
-      </div>
-
-      <div class="row">
-      	<div class="col-sm-4 col-sm-offset-1">
-	  <h3>Государственные данные</h3>
-	  В России немало государственных данных открыто: закупки, результаты выборов, данные о внешней торговле. Мы следим за такими источниками и разбираемся в их содержании.
-      	</div>
-
-      	<div class="col-sm-4">
-	  <h3>Закрытые базы данных</h3>
-	  Существует масса платных баз данных: Similarweb, Builtwith. Если заказчик согласен, мы их используем.
-      	</div>
-      </div>
-
-      <div class="row">
-      	<div class="review col-sm-6 col-sm-offset-2">
-	  <div>
-	    Владислав Комиссаров, директор по развитию, Интерфакс:
-	  </div>
-	  <div>
-	    <span class="hanging-quote">«</span>Мы заказывали в лаборатории сбор и обработку данных. Своих рук на всё не хватает. Радует гибкий подход: о полях и формате выгрузки всегда можно договориться.»
-	  </div>
-      	</div>
-      </div>
-
-      <div class="row">
-	<a name="process"></a>
-      	<div class="col-sm-8 col-sm-offset-1">
-	  <center class="hr"></center>
-	  <h2>Обработка данных</h2>
-	</div>
-      </div>
-
-      <div class="row">
-      	<div class="col-sm-4 col-sm-offset-1">
-	  <h3>Извлечение фактов из текста</h3>
-	  Из произвольного текста на английском или русском языке мы умеем извлекать имена, адреса, даты и названия компаний.
-	</div>
-
-      	<div class="col-sm-4">
-	  <h3>Нормализация данных</h3>
-	  Для объединения разных источников, мы приводим их к нормальной форме.
-	</div>
-
-      	<div class="col-sm-2" id="facts">
-	  <div class="frame visible">
-	    Выражаем благодарность Анисимовой Вере Николаевне, воспитательнице ДО «Солнышко»...
-	  </div>
-	  <div class="frame hidden">
-	    Выражаем благодарность <span class="fact1">Анисимовой Вере Николаевне</span>, воспитательнице ДО «<span class="fact2">Солнышко</span>»...
-	  </div>
-	  <div class="frame hidden">
-	    <div class="decoded">
-{
-  fio: <span class="fact1">Анисимовой Вере Николаевне</span>,
-  company: <span class="fact2">Солнышко</span>
-}
-	    </div>
-	  </div>
-	  <div class="frame hidden">
-	    <div class="decoded">
-{
-  fio: <span class="fact1">Анисимова Вера Николаевна</span>,
-  company: <span class="fact2">Солнышко</span>
-}
-	    </div>
-	  </div>
-
-	  <div class="frame hidden">
-	    Контакты для связи: 89163668039 Николай. Осмотр на ул. 1915 года дом 23...
-	  </div>
-	  <div class="frame hidden">
-	    Контакты для связи: <span class="fact1">89163668039</span> <span class="fact2">Николай</span>. Осмотр на <span class="fact3">ул. 1915 года дом 23</span>...
-	  </div>
-	  <div class="frame hidden">
-	    <div class="decoded">
-{
-  phone: <span class="fact1">89163668039</span>,
-  fio: <span class="fact2">Николай</span>,
-  address: <span class="fact2">ул. 1915 года дом 23</span>
-}
-	    </div>
-	</div>
-	  <div class="frame hidden">
-	    <div class="decoded">
-{
-  phone: <span class="fact1">+7 916 366-80-39</span>,
-  fio: <span class="fact2">Николай</span>,
-  address: <span class="fact2">улица 1915 года, 23</span>
-}
-	    </div>
-	  </div>
-	</div>
-      </div>
-
-      <div class="row">
-      	<div class="review col-sm-6 col-sm-offset-2">
-	  <div>
-	    Михаил Танский, руководитель Хантфлоу:
-	  </div>
-	  <div>
-	    <span class="hanging-quote">«</span>В Хантфлоу из резюме автоматически извлекается фотография кандидата, его имя, возраст, опыт и желаемая должность. Понравилось, что работы были сделаны в срок, у нас не возникло проблем с интеграцией и распознавание сразу заработало с хорошим качеством.»
-	  </div>
-      	</div>
-      </div>
-
-      <div class="row">
-      	<div class="col-sm-4 col-sm-offset-1">
-	  <h3>Ручная разметка</h3>
-	  Иногда обработать данные автоматически не получается. Тогда мы максимально оптимизируем процесс разметки и собираем данные вручную.
-	</div>
-
-      	<div class="col-sm-4">
-	  <h3>OCR</h3>
-	  Иногда нужно работать с текстом на изображениях. Когда Finereader и Tesseract не справляются, разрабатываются специальные решения.
-	</div>
-
-	<div class="col-sm-3" id="ocr">
-	  <img src="i/ocr/01.png" class="frame hidden"/>
-	  <img src="i/ocr/02.png" class="frame hidden"/>
-	  <img src="i/ocr/03.png" class="frame hidden"/>
-	  <img src="i/ocr/04.png" class="frame hidden"/>
-	  <img src="i/ocr/05.png" class="frame hidden"/>
-	  <img src="i/ocr/06.png" class="frame hidden"/>
-	  <div class="frame visible">
-	    <table class="table-striped table-responsive">
-	      <tr>
-		<th></th><th>m11</th><th>m21</th>
-		<th>m31</th><th>m41</th><th>m51</th>
-	      </tr>
-	      <tr>
-		<td>s</td><td>36</td><td>82</td>
-		<td>68</td><td>58</td><td>70l</td>
-	      </tr>
-	      <tr>
-		<td>m</td><td>37</td><td>86</td>
-		<td>72</td><td>59</td><td>71</td>
-	      </tr>
-	      <tr>
-		<td>l</td><td>38</td><td>90</td>
-		<td>76</td><td>60</td><td>72</td>
-	      </tr>
-	      <tr>
-		<td>xl</td><td>39</td><td>94</td>
-		<td>80</td><td>61</td><td>73</td>
-	      </tr>
-	      <tr>
-		<td>xl</td><td>40</td><td>98</td>
-		<td>84</td><td>62</td><td>74</td>
-	      </tr>
-	    </table>
-	  </div>
-	</div>
-
-      </div>
-
-      <div class="row">
-	<a name="analyze"></a>
-      	<div class="col-sm-8 col-sm-offset-1">
-	  <center class="hr"></center>
-	  <h2 class="inline-title">Анализ</h2> &mdash; творческий процесс. Выделяются приёмы, которые встречаются чаще остальных:
-	</div>
-      </div>
-
-      <div class="row">
-      	<div class="col-sm-4 col-sm-offset-1">
-	  <h3>Описательный анализ</h3>
-	  Когда данные собраны и обработаны, первым делом, мы разбираемся, как они устроены. Строим графики, придумываем и проверяем гипотезы. Из публичного: «<a href="http://habrahabr.ru/post/271407/">анализ резюме</a>», «<a href="https://habrahabr.ru/post/270675/">анализ ЕГЭ</a>», «<a href="https://habrahabr.ru/post/279157/">исследование думских выборов</a>», «<a href="/dtp">исследование ДТП</a>».
-	</div>
-
-      	<div class="col-sm-4">
-	  <h3>Классификация сайтов</h3>
-	  Для задачи анализа рынка мы выделяем сайты заданной тематики: новостные сайты, интернет магазины. Для этого используем <a href="https://habrahabr.ru/post/264627/">граф похожих сайтов</a> и <a href="https://habrahabr.ru/post/265431/">и полуавтоматический классификатор сайтов</a>.
-	</div>
-      </div>
-
-      <div class="row">
-      	<div class="col-sm-4 col-sm-offset-1">
-	  <h3>Классификация текстов</h3>
-	  Для систем родительского контроля мы определяем содержание страниц: порно, наркотики, суицид.
-	</div>
-
-      	<div class="col-sm-4">
-	  <h3>Классификация изображений</h3>
-	  Чтобы выделить аккаунты организаций в социальных сетях, мы ищем лица на аватарках. Если лица нет, значит организация.
-	</div>
-
-      	<div class="col-sm-3" id="avatar">
-	  <img src="i/avatar/org_01.jpg"/>
-	  <img src="i/avatar/org_02.jpg"/>
-	  <img src="i/avatar/human_03.jpg"/>
-	  <img src="i/avatar/org_03.jpg"/>
-	  <img src="i/avatar/org_04.jpg"/>
-	  <img src="i/avatar/human_01.jpg"/>
-	  <img src="i/avatar/org_05.jpg"/>
-	  <img src="i/avatar/org_07.jpg"/>
-	  <img src="i/avatar/org_08.jpg"/>
-	  <img src="i/avatar/human_02.jpg"/>
-	  <img src="i/avatar/org_06.jpg"/>
-	  <img src="i/avatar/human_04.jpg"/>
-	</div>
-      </div>
-
-      <div class="row">
-      	<div class="review col-sm-6 col-sm-offset-2">
-	  <div>
-	    Екатерина Базилевская, руководитель, Look At Media
-	  </div>
-	  <div>
-	    <span class="hanging-quote">«</span>Мы делали в лаборатории кучу исследований: анализ рынка, конкурентный анализ, сбор контактов для HR и продаж. Удобно, что такие разные исследования можно получить в одном месте, а не собирать по кусочкам.»
-	  </div>
-      	</div>
-      </div>
-
-      <div class="row">
-	<a name="viz"></a>
-      	<div class="col-sm-8 col-sm-offset-1">
-	  <center class="hr"></center>
-	  <h2>Визуализация</h2>
-	  Чтобы донести результат анализа до заказчика, в отчёте нужны иллюстрации.
-	</div>
-      </div>
-
-      <div class="row">
-      	<div class="col-sm-4 col-sm-offset-1">
-	  <h3>Графики</h3>
-	  В 80% случаев обычные графики справляются с задачей.
-	</div>
-      	<div class="col-sm-4">
-      	  <h3>Интерактивные визуализации</h3>
-	  При необходимости мы делаем сложные визуализации на D3.js.
-      	</div>
-      	<div id="d3" class="col-sm-3">
-	</div>
-      </div>
-    </div>
-
-    <div id="map-graph">
-      <div class="container">
-	<div class="row" >
-      	  <div class="col-sm-4 col-sm-offset-1">
-    	    <h3>Графы</h3>
-	    При анализе социальных сетей результат исследования удобно показать в виде графа.
-	  </div>
-      	  <div class="col-sm-4">
-    	    <h3>Карты</h3>
-	    Когда в данных есть координаты, адреса домов, названия областей, мы наносим их на карту.
-	  </div>
-	</div>
-	<div>
-	  <div class="col-sm-5">
-    	    <img src="i/viz/graph.png" class="img-responsive"/>
-    	  </div>
-	  <div class="col-sm-6">
-    	    <img src="i/viz/density.png" class="img-responsive"/>
-    	  </div>
-	</div>
-      </div>
-    </div>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KMSWM6G"
+		      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
     <div class="container">
       <div class="row">
-	<a name="clients"></a>
-      	<div class="col-sm-8 col-sm-offset-1" id="clients">
-	  <center class="hr"></center>
-	  Лаборатория работает с крупными и маленькими компаниями, сотрудничает с государством в области открытых данных.
-	  <center>
-	    <img src="i/logo/lam.png"/>
-	    <img src="i/logo/huntflow.png"/>
-	    <img src="i/logo/ubic.png"/>
-	    <img src="i/logo/iri.png"/>
-	    <img src="i/logo/interfax.png"/>
-	    <img src="i/logo/tass.png"/>
-	  </center>
+	<div class="col-8">
+	  <h1>Лаборатория анализа данных Александра Кукушкина</h1>
+	  <div class="lead">
+	    Сбор, обработка, анализ, визуализация данных. Исследования,&nbsp;разработка сервисов и коробочных продуктов.
+	  </div>
 	</div>
+	<div class="col-4">
+	  <a href="#contacts" class="btn btn-primary btn-lg">Обсудить проект</a>
+	</div>
+
       </div>
 
-      <div class="row">
-	<a name="posts"></a>
-      	<div class="col-sm-8 col-sm-offset-1" id="clients">
-	  <center class="hr"></center>
-	  Мы делимся своими наработками: описываем технологии, рассказываем об источниках открытых данных.
-	</div>
-      </div>
-
-      <div class="posts">
+      <div id="fetch">
+	<h2>Сбор данных</h2>
 	<div class="row">
-	  <div class="col-sm-8 col-sm-offset-1">
-	    <ol>
-	      <li>
-		<a href="http://kartatorgovli.ru/">
-		  Структура внешней торговли Российской Федерации</a>
-		<span class="date">2016-12-11</span>
-		<p>
-		  Импорт и экспорт России в динамике за 2013-2016 годы. В разрезе товарных групп и стран-партнёров.
-		</p>
-	      </li>
+	  <div class="col-4">
+	    <div id="social">
+	      <h3>Социальные сети</h3>
+	      Собираем данные из ВКонтакте, Twitter, Instagram и LinkedIn. Используем API для разработчиков и полупубличные интерфейсы.
+	      <ul class="refs">
+		<li><a href="#news">Сбор лидов для новостной CMS из Twitter и LinkedIn</a></li>
+		<li><a href="#mai">Таргетинг абитуриентов во ВКонтакте</a></li>
+	      </ul>
+	    </div>
 
-	      <li>
-		<a href="/dtp">Исследование ДТП на территории России</a>
-		<img class="inline-image" src="i/inline/dtp.png"/>
-		<span class="date">2016-10-23</span>
-		<p>
-		  Когда, где и с кем происходят аварии на дорогах страны.
-		</p>
-	      </li>
+	    <div id="gov">
+	      <h3>Государственные данные</h3>
+	      В России действует 8-ФЗ, государство публикует закупки, результаты выборов, статистику внешней торговли. Мы следим за источниками открытых данных, используем их в исследованиях.
+	      <ul class="refs">
+		<li><a href="#sou">Сбор дел СОЮ</a></li>
+	      </ul>
+	    </div>
+	  </div>
 
-	      <li>
-		<a href="/insta">Поиск тематических аккаунтов в Инстаграме</a>
-		<span class="date">2016-10-01</span>
-		<p>
-		  Что делать, когда нужно найти все аккаунты, например, про вязание или мыловарение.
-		</p>
-	      </li>
+	  <div class="col-4">
+	    <div id="internet">
+	      <h3>Интернет</h3>
+	      Лаборатория проводит регулярный сбор данных с сайтов в зонах .ru и .рф (5&nbsp;500&nbsp;000 хостов). Робот решает капчи и обходит блокировки.
+	      <ul class="refs">
+		<li><a href="#decaptcha">Разбор капчи</a></li>
+		<li><a href="#runet">Извлечение контактов с сайтов в Рунете</a></li>
+	      </ul>
+	    </div>
 
-	      <li>
-		<a href="http://obr.msk.ru/">
-		  Московские школы</a>
-		<span class="date">2016-05-14</span>
-		<p>
-		  Помощь в выборе школ для московских родителей. В ходе работы над проектом были <a href="http://habrahabr.ru/post/270675/">собраны данные по ЕГЭ, вузам</a>, <a href="http://habrahabr.ru/post/271923/">кружкам</a> и <a href="https://habrahabr.ru/post/283564/">масса другой информации</a>.
-		</p>
-	      </li>
+	    <div id="db">
+	      <h3>Закрытые базы данных</h3>
+	      Согласуем с заказчиком, используем закрытые базы данных и API: BuiltWith, SimilarWeb, Quantcast.
+	      <ul class="refs">
+		<li><a href="#wp">Сбор лидов для WordPress-плагина</a></li>
+	      </ul>
+	    </div>
+	  </div>
 
-	      <li>
-		<a href="https://habrahabr.ru/post/279833/">
-		  1&nbsp;000&nbsp;000 жилых домов России</a>
-		<span class="date">2016-03-22</span>
-		<p>
-		  Как строилось жильё в России: число этажей, архитектура, энергоэффективность жилых домов.
-		</p>
-	      </li>
 
-	      <li>
-		<a href="http://1kandidat.ru/">
-		  Первый кандидат</a>
-		<span class="date">2016-03-13</span>
-		<p>
-		  Поддержка в ведении избирательных кампаний в Российской Федерации. Проект основан на <a href="https://habrahabr.ru/post/279157/">исследовании результатов выборов в Госдуму 2011 года</a>.
-		</p>
-	      </li>
+	</div>
+      </div>
 
-	      <li>
-		<a href="/ocr">
-		  OCR на коленке</a>
-		<span class="date">2016-02-15</span>
-		<p>
-		  Когда FineReader и Tesseract не подходят.
-		</p>
-	      </li>
+      <div id="process">
+	<h2>Обработка данных</h2>
+	<div class="row">
+	  <div class="col-4">
+	    <div id="facts">
+	      <h3>Извлечение фактов из текста</h3>
+	      Лаборатория разрабатывает и поддерживает открытые инструменты для работы с естественным русским языком. Yargy-parser извлекает из текста имена, даты, адреса и названия организаций.
+	      <ul class="refs">
+		<li><a href="#resume">Извлечение информации из текстов резюме</a></li>
+		<li><a href="#arb">Разбор арбитражных дел</a></li>
+	      </ul>
+	    </div>
+	  </div>
 
-	      <li>
-		<a href="http://podborzarplat.ru/">
-		  Средние зарплаты в резюме</a>
-		<span class="date">2015-12-11</span>
-		<p>
-		  Рациональный выбор зарплат для резюме и вакансий. Узнали <a href="http://habrahabr.ru/post/271407/">много интересного</a> о рынке труда в России.
-		</p>
-	      </li>
+	  <div class="col-4">
+	    <div id="facts">
+	      <h3>Нормализация</h3>
+	      Данные, собранные из разных источников, приводим к нормальной форме и объединяем.
+	      <ul class="refs">
+		<li><a href="#datirovka">Поиск по базе предметов искусства</a></li>
+		<li><a href="#mvideo">Метчинг названий товаров</a></li>
+	      </ul>
+	    </div>
+	  </div>
 
-	      <li>
-		<a href="http://habrahabr.ru/post/273531/">
-		  Поиск потенциальных фолловеров</a>
-		<span class="date">2015-11-29</span>
-		<p>
-		  Помогает проводить грамотные рекламные кампании в Твитере и наращивать аудиторию.
-		</p>
-	      </li>
+	</div>
+      </div>
 
-	      <li>
-		<a href="http://habrahabr.ru/post/268205/">
-		  Поиск по слепку интернета</a>
-		<span class="date">2015-10-02</span>
-		<p>
-		  Для случаев, когда обычные поисковики не справляются. Инструкция по работе с архивом Common Crawl.
-		</p>
-	      </li>
+      <div id="analyze">
+	<h2>Анализ</h2>
+	<div class="row">
+	  <div class="col-4">
+	    <div id="eda">
+	      <h3>Описательный анализ</h3>
+	      Когда данные собраны и обработаны, разбираемся как они устроены: строим графики, придумываем и проверяем гипотезы.
+	      <ul class="refs">
+		<li><a href="#nspk">Портреты клиентов банка</a></li>
+		<li><a href="#tilda">Конкурентный анализ Tilda и ReadyMag</a></li>
+	      </ul>
+	    </div>
 
-	      <li>
-		<a href="http://1001blister.ru/">
-		  Список предельных цен на жизненно необходимые лекарства</a>
-		<img class="inline-image" src="i/inline/pill.jpg"/>
-		<span class="date">2015-09-01</span>
-		<p>
-		  Максимальные цены на ЖНВЛП в московских аптеках. <a href="http://habrahabr.ru/post/265655/">Процесс составления списка</a> представляет отдельный интерес.
-		</p>
-	      </li>
+	    <div id="facts">
+	      <h3>Deep learning</h3>
+	      Лаборатория разрабатывает и поддерживает <a class="ref" href="#slovnet">библиотеку Slovnet</a> — набор современных deep learning моделей для решения базовых задач русскоязычного NLP.
+	    </div>
+	  </div>
 
-	      <li>
-		<a href="http://habrahabr.ru/post/263753/">
-		  Граф связанных пабликов</a>
-		<span class="date">2015-07-15</span>
-		<p>
-		  Нужен для поиска конкурентов в социальных сетях.
-		</p>
-	      </li>
+	  <div class="col-4">
+	    <div id="facts">
+	      <h3>Классическое машинное обучение</h3>
+	      Для решения задач регрессии и классификации табличных данных используем классического машинного обучения.
+	      <ul class="refs">
+		<li><a href="#fsem">Блокировка страниц с экстремистским содержанием</a></li>
+		<li><a href="#mai">Таргетинг абитуриентов</a></li>
+	      </ul>
+	    </div>
+	  </div>
 
-	      <li>
-		<a href="http://habrahabr.ru/post/261993/">
-		  Анализ звонков в колл-центры</a>
-		<img class="inline-image" src="i/inline/sound.png"/>
-		<span class="date">2015-07-01</span>
-		<p>
-		  Решение на основе SpeechKit для оценки качества работы колл-центров.
-		</p>
-	      </li>
+	</div>
+      </div>
+    </div>
 
-	    </ol>
+    <div id="viz">
+      <div class="container">
+	<div class="row">
+      	  <div class="col-8">
+    	    <h2>Визуализация</h2>
+	    Строим графики, интерактивные визуализации на D3.js, наносим данные на карту, раскрашиваем графы.
+	  </div>
+	</div>
+
+	<div class="row">
+	  <div class="col-5">
+	    <img src="images/viz/01.png" class="img-fluid">
+	  </div>
+	  <div class="col-6">
+	    <img src="images/viz/02.png" class="img-fluid">
+	  </div>
+	</div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+	<div class="col-8">
+	  <table id="formats" class="table table-borderless">
+	    <thead>
+	      <tr>
+		<th>Исследование</th>
+		<th>Коробочный продукт</th>
+		<th>Сервис</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr>
+		<td>Результат — отчёт, таблицы, графики, доклад</td>
+		<td>Программа, работающая в дата-центре заказчика</td>
+		<td>Решение, работающее у нас в дата-центре. Заказчик использует API.</td>
+	      </tr>
+
+	      <tr>
+		<td>Разовая оплата</td>
+		<td>Разовая оплата</td>
+		<td>Подписка</td>
+	      </tr>
+
+	      <tr>
+		<td>
+		  <ul class="refs">
+		    <li><a href="#utair">Оптимальное размещение наружной рекламы</a></li>
+		    <li><a href="#tilda">Конкурентный анализ Tilda и ReadyMag</a></li>
+		  </ul>
+		</td>
+
+		<td>
+		  <ul class="refs">
+		    <li><a href="#datirovka">Поиск по базе предметов искусства</a></li>
+		    <li><a href="#mvideo">Метчинг названий товаров</a></li>
+		  </ul>
+		</td>
+
+		<td>
+		  <ul class="refs">
+		    <li><a href="#sou">Сбор дел СОЮ</a></li>
+		    <li><a href="#runet">Извлечение контактов с сайтов компаний</a></li>
+		  </ul>
+		</td>
+	      </tr>
+
+	    </tbody>
+	  </table>
+	</div>
+      </div>
+
+      <div id="cases">
+	<h2>Примеры работ</h2>
+	<div class="row">
+	  <div class="col col-4">
+	    <div id="resume" class="case">
+	      <h3>
+		Извлечение информации из текстов резюме
+		<span class="tag process">обработка</span>
+		<span class="tag service">сервис</span>
+	      </h3>
+	      <p>
+		Рекрутинговое агенство получает сотни pdf-документов с резюме в день. HR-специалисты переносят контакты, опыт работы в Excel-таблицы.
+	      </p>
+	      <p>
+		Мы разработали инструмент, который принимает на вход текст резюме, извлекает фото, имя кандидата, телефон, почту, должность на прошлом месте работы, желаемую зарплату.
+	      </p>
+	      <p>
+		Решение экономит 30 минут рабочего времени HR-специалиста в день.
+	      </p>
+	    </div>
+
+	    <div id="runet" class="case">
+	      <h3>
+		Извлечение контактов с сайтов компаний
+		<span class="tag fetch">сбор</span>
+		<span class="tag process">обработка</span>
+		<span class="tag service">сервис</span>
+	      </h3>
+	      <p>
+		Заказчик занимается скорингом юридических лиц в России.
+	      </p>
+	      <p>
+		Для каждого сайта в зонах .ru и .рф мы находим раздел с контактами и извлекаем ИНН, ОГРН, банковские реквизиты, фактический адрес, телефон, почту, имя директора. Раз в месяц заказчик получает выгрузку 1&nbsp;000&nbsp;000 записей.
+	      </p>
+	      <p>
+		Телефон и адрес с сайта компании актуальнее, чем в выписке из ЕГРЮЛ.
+	      </p>
+	    </div>
+
+	    <div id="sou" class="case">
+	      <h3>
+		Сбор карточек дел с сайтов судов общей юрисдикции
+		<span class="tag fetch">сбор</span>
+		<span class="tag process">обработка</span>
+		<span class="tag service">сервис</span>
+	      </h3>
+	      <p>
+		Суды публикуют решения по уголовным и гражданским делам у себя на сайтах. В России 2300 судов, у каждого свой сайт.
+	      </p>
+	      <p>
+		Мы собираем карточки поступивших дел, следим за изменениям, сохраняем текст приговора. Ежедневно заказчик получает выгрузку 100&nbsp;000 дел с обновлениями, организует поиск по текстам документов.
+	      </p>
+	    </div>
+
+	    <div id="decaptcha" class="case">
+	      <h3>
+		Разбор капчи
+		<span class="tag analyze">анализ</span>
+		<span class="tag service">сервис</span>
+	      </h3>
+	      <p>
+		Заказчик автоматизирует работу с сайтами ФНС и ГАС «Правосудие». Запросы к поиску требуют ввода капчи.
+	      </p>
+	      <p>
+		Наш сервис принимает картину с капчей, возвращает текст с кодом. Решение построено на свёрточных нейронных сетях, точность распознавания 95%.
+	      </p>
+	    </div>
+
+	    <div id="datirovka" class="case">
+	      <h3>
+		Поиск по базе предметов искусства
+		<span class="tag process">обработка</span>
+		<span class="tag product">коробочный продукт</span>
+	      </h3>
+	      <p>
+		Государственные музеи вносят информацию о своих фондах в общую базу предметов искусства.
+	      </p>
+	      <p>
+		В базе 6&nbsp;000&nbsp;000 предметов. Стандартного формата для записей нет. Из описания на естественном русском языке мы извлекаем период создания и габариты объекта: «вторая треть xvii в.» → [1630, 1660), «рамка: 10,5х16 см» → [105, 160]. Заказчик использует новые атрибуты для поиска по базе.
+	      </p>
+	    </div>
+
+	    <div id="arb" class="case">
+	      <h3>
+		Извлечение информации из текстов арбитражных дел
+		<span class="tag process">обработка</span>
+		<span class="tag service">сервис</span>
+	      </h3>
+	      <p>
+		При подготовке к судебному заседанию юристы знакомятся с практикой по релевантным делам.
+	      </p>
+	      <p>
+		С 2010 года в картотеке Право.ру накопилось 5&nbsp;000&nbsp;000 решение по арбитражным делам. Наш инструмент принимает текст документа, извлекает имя судьи, реквизиты сторон, исковые требования, ссылки на нормативные акты, вердикт по делу.
+	      </p>
+	      <p>
+		Заказчик организует поиск по отдельным полям, делает подборки практики по судьям, статьям, компаниям-участникам.
+	      </p>
+	    </div>
+
+	    <div id="nspk" class="case">
+	      <h3>
+		Портреты клиентов банка
+		<span class="tag analyze">анализ</span>
+		<span class="tag research">исследование</span>
+	      </h3>
+	      <p>
+		Банк собирает информацию о транзакциях: id-клиента, время, сумму, MCC-код. По истории транзакций мы строим портрет клиента: автовладелец, путешественник, есть дети. Банк делает персонализированные предложения по кредитам и вкладам.
+	      </p>
+	    </div>
+
+	    <div id="mvideo" class="case">
+	      <h3>
+		Метчинг названий товаров
+		<span class="tag process">обработка</span>
+		<span class="tag analyze">анализ</span>
+		<span class="tag product">коробочный продукт</span>
+	      </h3>
+	      <p>
+		Заказчик делает маркетплейс аналог Яндекс.Маркета.
+	      </p>
+	      <p>
+		Магазины присылают прайс-листы — список названий товаров и цены. Наше решение объединяет предложения в карточки. Один и тот же товар может называться по-разному: «iPhone X», «айфон десять». И наоборот, названия разных товаров могут отличаться одной буквой: «Dell SeriesJ XN», «Dell SeriesK XN». Мы делим названия на части: артикул, производитель, модель, атрибуты. Приводим всё к нормальной форме: «айфон» → «iphone», «X» → «10», «десять» → «10». Процедура сравнения возвращает вес: 0 — разные товары, 1 — одинаковые.
+	      </p>
+	    </div>
+
+	    <div id="clickstream" class="case">
+	      <h3>
+		Чистка кликстрима
+		<span class="tag process">обработка</span>
+		<span class="tag analyze">анализ</span>
+		<span class="tag research">исследование</span>
+	      </h3>
+	      <p>
+		Заказчик занимает DPI (Deep Packet Inspection), видит весь HTTP-трафик интернет-провайдеров.
+	      </p>
+	      <p>
+		В потоке много мусора: рекламные пиксели, загрузка javascript и картинок. Наше решение выделяет содержательные события: загрузка страниц, переходы по ссылкам.
+	      </p>
+	      <p>
+		Заказчик использует чистый кликстрим для пользовательской аналитики: определение пола, возраста, интересов.
+	      </p>
+	    </div>
+
+	    <div id="fsem" class="case">
+	      <h3>
+		Блокировка страниц с экстремистским содержанием
+		<span class="tag analyze">анализ</span>
+		<span class="tag product">коробочный продукт</span>
+	      </h3>
+	      <p>
+		Заказчик интернет-провайдер обслуживает московские школы.
+	      </p>
+	      <p>
+		Мы разработали технологию для классификации веб-страниц. Система анализирует текст, определяет категорию: экстремизм, порнография, наркотики, суицид. Решение работает быстро, использует байесовский классификатор на нграммах, руководствуется реестром ФСЭМ.
+	      </p>
+	    </div>
+	    
+	    <div id="news" class="case">
+	      <h3>
+		Сбор лидов для новостной CMS
+		<span class="tag fetch">сбор</span>
+		<span class="tag process">обработка</span>
+		<span class="tag research">исследование</span>
+	      </h3>
+	      <p>
+		Заказчик медиа-холдинг упаковал в коробочный продукт свою внутреннюю систему для вёрстки и публикации новостей.
+	      </p>
+	      <p>
+		Мы собрали список потенциальных покупателей: 5000 компаний владельцев новостных сайтов в России и США. Для каждого сайта указана тематика (спорт, политика, финансы), оценка трафика, CMS, почта и телефоны руководителей СМИ. Данные собраны из открытых и закрытых источников: Quantcast, SimilarWeb, BuiltWith, профили в Twitter и LinkedIn.
+	      </p>
+	      <p>
+		Заказчик провёл персонализированную коммуникацию с руководителями СМИ.
+	      </p>
+	    </div>
+
+	    <div id="tilda" class="case">
+	      <h3>
+		Конкурентный анализ Tilda и ReadyMag
+		<span class="tag fetch">сбор</span>
+		<span class="tag process">обработка</span>
+		<span class="tag analyze">анализ</span>
+		<span class="tag research">исследование</span>
+	      </h3>
+	      <p>
+		Заказчик запускает конструктор сайтов аналог Tilda и Readymag.
+	      </p>
+	      <p>
+		Из открытых источников через полупубличные интерфейсы мы собрали основные показатели конкурентов: число новых сайтов за 5 лет по месяцам, доход от пользователей на платных тарифах.
+	      </p>
+	      <p>
+		Заказчик установил KPI для менеджеров по числу пользователей и выручке.
+	      </p>
+	    </div>
+	    
+	    <div id="wp" class="case">
+	      <h3>
+		Сбор лидов для WordPress-плагина
+		<span class="tag fetch">сбор</span>
+		<span class="tag process">обработка</span>
+		<span class="tag research">исследование</span>
+	      </h3>
+	      <p>
+		Заказчик разрабатывает плагины и темя для WordPress.
+	      </p>
+	      <p>
+		Мы собрали список всех сайтов на WP в зонах .ru и .com. Через полупубличный интерфейс для каждого определили тему и набор плагинов, динамику числа постов за год.
+	      </p>
+	      <p>
+		Заказчик провёл персонализированную коммуникацию с владельцами сайтов.
+	      </p>
+	    </div>
+
+	    <div id="utair" class="case">
+	      <h3>
+		Оптимальное размещение наружной рекламы
+		<span class="tag analyze">анализ</span>
+		<span class="tag viz">визуализация</span>
+		<span class="tag research">исследование</span>
+	      </h3>
+	      <p>
+		Заказчик авиаперевозчик проводит рекламную кампанию, покупает места на билбордах.
+	      </p>
+	      <p>
+		Мы проанализировали 1&nbsp;000&nbsp;000 поездок на такси из 3 аэропортов Москвы. Определили популярные направления. Заказчик оптимально разместил рекламные сообщения.
+	      </p>
+	    </div>
+
+	    <div id="mai" class="case">
+	      <h3>
+		Таргетинг абитуриентов
+		<span class="tag fetch">сбор</span>
+		<span class="tag process">обработка</span>
+		<span class="tag analyze">анализ</span>
+		<span class="tag research">исследование</span>
+	      </h3>
+	      <p>
+		Заказчик московский ВУЗ размещает рекламу в социальных сетях, рассказывает о себе абитуриентам.
+	      </p>
+	      <p>
+		Мы собрали список профилей выпускников московских школ, проанализировали их подписки, для каждого указали вес: 1 — предложение ВУЗа релевантно, 0 — вряд ли заинтересует.
+	      </p>
+	      <p>
+		Заказчик настроил таргетинг для рекламных кампаний.
+	      </p>
+	    </div>
+
 	  </div>
 	</div>
       </div>
 
-      <div class="row">
-	<div class="col-sm-8 col-sm-offset-1">
-	  <center class="hr"></center>
-	  Схема сотрудничества устроена так: мы обсуждаем задачу в общих чертах, заключаем NDA, вникаем в задачу глубже, составляем план и назначаем срок, если всё устраивает, заключаем договор и начинаем работу. Длительность итерации не превышает двух недель. Стоимость работ зависит от срока. Звоните, пишите: <span class="contact"><a href="tel:+79163668039" class="tel">+7 916 366-80-39</a></span>, <span class="contact"><a href="mailto:alex@alexkuk.ru">alex@alexkuk.ru</a></span>.
+      <div id="clients">
+	<h2>Клиенты</h2>
+	<div class="row">
+	  <div class="col-8">
+	    <img src="images/logos.svg" class="img-fluid" />
+	  </div>
 	</div>
       </div>
 
-      <div class="row">
-	<div class="col-sm-8 col-sm-offset-1">
-	  <center>
-	    <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
-	    <script src="//yastatic.net/share2/share.js"></script>
-	    <div class="ya-share2"
-		 data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter"
-		 data-counter="">
+      <div id="reviews">
+	<h2>Отзывы</h2>
+	<div class="row">
+	  <div class="col-4">
+	    <div class="review">
+	      Владислав Комиссаров, директор по развитию, Интерфакс: «Мы заказывали в лаборатории сбор и обработку данных. Своих рук на всё не хватает. Радует гибкий подход: о полях и формате выгрузки всегда можно договориться.»
 	    </div>
-	  </center>
+	  </div>
+
+	  <div class="col-4">
+	    <div class="review">
+	      Михаил Танский, руководитель Хантфлоу: «Понравилось, что работы были сделаны в срок, у нас не возникло проблем с интеграцией и решение сразу заработало с хорошим качеством.»
+	    </div>
+	  </div>
+
+	  <div class="col-4">
+	    <div class="review">
+	      Екатерина Базилевская, руководитель Look At Media: «Мы делали в лаборатории кучу исследований: анализ рынка, конкурентный анализ, сбор контактов для HR и продаж. Удобно, что такие разные исследования можно получить в одном месте, а не собирать по кусочкам.»
+	    </div>
+	  </div>
+
 	</div>
       </div>
 
-      <div id="footer" class="row">
-	<div class="col-sm-8 col-sm-offset-1">
-	  <center id="copy">© 2015–2017 ООО «Лаборатория анализа данных Кукушкина Александра»</center>
+      <div id="opensource">
+	<h2>Open source</h2>
+
+	<div class="row">
+	  <div class="col-8">
+	    <p>
+	      Лаборатория разрабатывает и поддерживает <a href="https://github.com/natasha">проект Natasha</a> — набор открытых Python-библиотек для обработки естественного русского языка. Качество инструментов сравнимо или выше, чем у других открытых решений.
+	    </p>
+	  </div>
 	</div>
+
+	<div class="row">
+	  <div class="col-4">
+	    <div id="natasha">
+	      <h3><a href="https://github.com/natasha/natasha">Natasha</a></h3>
+	      <p>
+	      Объединяет инструменты проекта в одной библиотеке, решает базовые задачи: сегментация на токены и предложения, морфология, лемматизация, синтаксис, извлечение и нормализация именованных сущностей.
+	      </p>
+	    </div>
+	  </div>
+
+	  <div class="col-4">
+	    <div id="razdel">
+	      <h3><a href="https://github.com/natasha/razdel">Razdel</a></h3>
+	      <p>
+		Сегментация текста на токены и предложения.
+	      </p>
+	    </div>
+
+	    <div id="slovnet">
+	      <h3><a href="https://github.com/natasha/slovnet">Slovnet</a></h3>
+	      <p>
+		Компактные deep learning модели: морфологический теггер, синтаксический парсер, NER.
+	      </p>
+	    </div>
+	  </div>
+
+	  <div class="col-4">
+	    <div id="navec">
+	      <h3><a href="https://github.com/natasha/navec">Navec</a></h3>
+	      <p>
+		Компактные предобученные эмбединги для русского языка.
+	      </p>
+	    </div>
+	    
+	    <div id="yargy">
+	      <h3><a href="https://github.com/natasha/yargy">Yargy-парсер</a></h3>
+	      <p>
+		Наследние яндексового Томита-парсера. Извлекает структурированную информацию из текстов на русского языке.
+	      </p>
+	    </div>
+	  </div>
+	</div>
+      </div>
+
+      <div id="contacts">
+	<h2>Контакты</h2>
+	<div class="row">
+	  <div class="col-6">
+	    <p>
+	      Пожалуйста, коротко опишите задачу и оставьте контакты. Мы свяжемся, обсудим варианты решения.
+	    </p>
+	  </div>
+	</div>
+
+	<div class="row">
+	  <div class="col-6">
+	    <form>
+	      <input
+		id="company"
+		type="text"
+		class="form-control"
+		placeholder="Компания"
+		required />
+
+	      <textarea
+		id="about"
+		class="form-control"
+		rows="5"
+		placeholder="Коротко о проекте"
+		required>
+	      </textarea>
+
+	      <input
+		id="contact"
+		type="text"
+		class="form-control"
+		placeholder="Почта, телефон или мессенджер"
+		required />
+
+	      <input
+		id="name"
+		type="text"
+		class="form-control"
+		placeholder="Имя"
+		required />
+
+	      <button type="button" class="btn btn-primary">
+      		<div id="submitting">
+      		  <span class="spinner-border spinner-border-sm"></span>
+      		  Отправка
+      		</div>
+      		<div id="submit">
+		  Отправить
+      		</div>
+	      </button>
+
+	      <div id="success" class="alert alert-success">
+		Заявка отправлена. В ближайшее время мы с вами свяжемся.
+	      </div>	    
+
+	      <div id="error" class="alert alert-danger">
+		Не удалось отправить заявку.
+	      </div>	    
+	    </form>
+	  </div>
+
+	  <div class="col-2">
+	    <img src="images/photo.jpg" class="rounded img-fluid" alt="Александр Кукушкин" />
+	  </div>
+
+	  <div class="col-4">
+	    <ul>
+	      <li>
+		<a href="tel:+79163668039" class="tel">
+		  +7 916 366-80-39
+		</a>, Александр
+	      </li>
+
+	      <li>
+		<a href="mailto:alex@alexkuk.ru">alex@alexkuk.ru</a>
+	      </li>
+
+	      <li>
+		<a href="tg://resolve?domain=alexkuk">
+		  <img class="inline" src="images/social/tg.svg" /> alexkuk
+		</a>
+	      </li>
+
+	    </ul>
+	  </div>
+	</div>
+      </div>
+
+      <div id="footer">
+	<a href="https://vk.com/lab.alexkuk">
+	  <img class="inline" src="images/social/vk.svg" /> lab.alexkuk
+	</a>
+	<a href="https://fb.com/lab.alexkuk">
+	  <img class="inline" src="images/social/fb.svg" /> lab.alexkuk
+	</a>
+	<br>
+	© 2015–2020 ООО «Лаборатория анализа данных Александра Кукушкина»
+	<br/>
+	ИНН 7734360987
+	<br/>
+	ОГРН 1157746763415
       </div>
     </div>
-    <script src="index.js" type="text/javascript"></script>
 
-
+    <script src="scripts/jquery-3.5.1.min.js" type="text/javascript"></script>
+    <script src="scripts/popper.min.js" type="text/javascript"></script>
+    <script src="scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="scripts/index.js" type="text/javascript"></script>
   </body>
 </html>
 

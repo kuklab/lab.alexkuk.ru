@@ -41,7 +41,7 @@ def log(format, *args):
 
 
 def run(command):
-    log(command)
+    log("Run %r", command)
     check_call(command)
 
 
